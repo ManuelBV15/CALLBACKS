@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>THE MENDOZA LAW FIRM - CALL BACKS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;600;700;800&display=swap');
+
+    :root { --mendoza-gold:#b39b5d; --mendoza-navy:#0a192f; }
+
+    body { font-family:'Inter',sans-serif; background-color:#f4f7f9; }
+    .font-serif-mendoza { font-family:'Cinzel',serif; }
+
+    .welcome-fade-in { animation: fadeIn 1.5s ease-out forwards; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+
+    .name-card { background: rgba(255,255,255,0.05); transition: all 0.3s ease; }
+    .name-card:hover { transform: scale(1.02); border-color: var(--mendoza-gold); background:white; color:var(--mendoza-navy); }
+
+    .glass-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border:1px solid rgba(226,232,240,0.8); }
+    .ai-glow { animation: glow 2s infinite alternate; }
+    @keyframes glow { from { box-shadow:0 0 5px #4f46e5;} to { box-shadow:0 0 20px #4f46e5;} }
+
+    .custom-scrollbar::-webkit-scrollbar { width:5px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:10px; }
+  </style>
+</head>
+
+<body class="h-screen overflow-hidden text-slate-800">
+
+  <!-- PANTALLA 1: BIENVENIDA -->
+  <div id="welcomeScreen" class="fixed inset-0 bg-[#0a192f] z-[110] flex flex-col items-center justify-center p-6 text-center">
+    <div class="welcome-fade-in space-y-8">
+      <div class="space-y-2">
+        <h1 class="text-white text-6xl font-serif-mendoza tracking-[0.3em]">BIENVENIDO</h1>
+        <p class="text-[#b39b5d] font-bold tracking-[0.5em] uppercase text-sm">Portal de Call Backs de Mendoza Law Firm</p>
+      </div>
+      <button onclick="showAttySelection()" class="mt-12 px-12 py-4 bg-[#b39b5d] text-white font-black rounded-full hover:bg-white hover:text-[#0a192f] transition-all transform hover:scale-110 uppercase tracking-widest text-xs">
+        Acceder al Portal
+      </button>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: SELECCIÓN DE ATTORNEY -->
+  <div id="loginScreen" class="hidden fixed inset-0 bg-[#0a192f] z-[100] flex flex-col items-center justify-center p-6">
+    <div class="max-w-4xl w-full text-center space-y-8">
+      <div class="space-y-2">
+        <h1 class="text-white text-4xl font-serif-mendoza tracking-[0.2em]">MENDOZA LAW FIRM</h1>
+        <p class="text-[#b39b5d] font-bold tracking-[0.3em] uppercase text-[10px]">Por favor selecciona tu nombre de Attorney</p>
+      </div>
+
+      <div class="max-w-md mx-auto grid grid-cols-1 gap-3 max-h-[450px] overflow-y-auto custom-scrollbar pr-2">
+        <div id="attyList" class="space-y-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PORTAL -->
+  <div id="portalMain" class="hidden h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="h-20 bg-[#0a192f] text-white flex items-center justify-between px-8 border-b border-white/10">
+      <div class="flex items-center gap-6">
+        <h1 class="font-serif-mendoza text-xl tracking-widest border-r border-white/20 pr-6">MENDOZA LAW</h1>
+        <div class="flex flex-col">
+          <span class="text-[10px] font-black uppercase text-[#b39b5d]">Attorney</span>
+          <span id="userNameDisplay" class="font-bold text-sm">--</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <button onclick="location.reload()" class="bg-white/10 px-4 py-2 rounded-lg text-xs font-bold hover:bg-white/20 uppercase">
+          Salir
+        </button>
+      </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+
+      <!-- Agenda Sidebar -->
+      <aside class="w-96 bg-white border-r border-slate-200 flex flex-col overflow-hidden">
+        <!-- TOP -->
+        <div id="sidebarTop" class="relative p-6 bg-slate-50 border-b border-slate-200 space-y-3">
+          <div class="flex justify-between items-center">
+            <h2 class="font-black uppercase text-xs tracking-tighter text-slate-400">Próximas Llamadas</h2>
+            <span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[10px] font-bold" id="totalCalls">0</span>
+          </div>
+
+          <!-- BUSCADOR -->
+          <div class="flex gap-2">
+            <input id="sidebarSearch" type="text" placeholder="Buscar cliente..." class="flex-1 bg-white border border-slate-200 px-4 py-2 rounded-xl outline-none text-xs font-bold" oninput="renderLists()">
+            <button onclick="clearSearch()" class="px-3 py-2 rounded-xl bg-slate-200 text-slate-700 text-xs font-black hover:bg-slate-300">
+              <i class="fas fa-xmark"></i>
+            </button>
+          </div>
+
+          <!-- BOTONES -->
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="setViewMode('all')" id="btnAll"
+              class="px-3 py-2 rounded-xl bg-slate-200 text-slate-700 text-[10px] font-black uppercase hover:bg-slate-300">
+              Ver Todos
+            </button>
+
+            <button onclick="setViewMode('month')" id="btnMonth"
+              class="px-3 py-2 rounded-xl bg-slate-200 text-slate-700 text-[10px] font-black uppercase hover:bg-slate-300">
+              Por Mes
+            </button>
+
+            <button onclick="setViewMode('today')" id="btnToday"
+              class="px-3 py-2 rounded-xl bg-slate-200 text-slate-700 text-[10px] font-black uppercase hover:bg-slate-300">
+              Hoy
+            </button>
+          </div>
+
+          <!-- Panel Mes/Semanas (inline) -->
+          <div id="monthWeekPanel" class="hidden mt-3 space-y-2"></div>
+
+          <!-- Chip de selección -->
+          <div id="monthSelectionChip" class="hidden">
+            <div class="mt-2 flex flex-wrap gap-2">
+              <span id="chipMonth" class="text-[10px] font-black uppercase px-3 py-1 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100"></span>
+              <span id="chipWeek" class="hidden text-[10px] font-black uppercase px-3 py-1 rounded-xl bg-slate-900 text-white border border-slate-900"></span>
+              <button onclick="clearMonthFilters()" class="text-[10px] font-black uppercase px-3 py-1 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300">
+                Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-4">
+          <div class="space-y-8">
+            <div>
+              <h3 class="px-4 text-[10px] font-black text-blue-600 uppercase mb-4 tracking-widest">Esta Semana</h3>
+              <div id="thisWeekList" class="space-y-3"></div>
+            </div>
+            <div>
+              <h3 class="px-4 text-[10px] font-black text-slate-300 uppercase mb-4 tracking-widest">Siguientes</h3>
+              <div id="nextWeeksList" class="space-y-3"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto bg-slate-50 p-8">
+
+        <div id="clientView" class="hidden space-y-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <h2 id="clientName" class="text-5xl font-black text-slate-900 tracking-tighter uppercase">--</h2>
+              <p id="clientId" class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Cargando...</p>
+              <p id="clientSchedule" class="text-[10px] font-black text-slate-300 mt-2 uppercase tracking-widest">--</p>
+            </div>
+
+            <button onclick="openAI()" class="ai-glow bg-indigo-600 text-white px-8 py-4 rounded-2xl flex flex-col items-center hover:scale-105 transition-all">
+              <span class="font-black uppercase tracking-tight">IA Bot de Notas 🤖</span>
+              <span class="text-[8px] opacity-70 uppercase">Limitado a clientes de callbacks</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Panel Resumen -->
+            <div class="col-span-4 space-y-6">
+              <div class="glass-panel p-6 rounded-3xl border-l-4 border-l-blue-600">
+                <h4 class="text-[10px] font-black text-slate-400 uppercase mb-3">Motivo de Llamada</h4>
+                <p id="callReason" class="text-sm font-medium leading-relaxed italic text-slate-700">--</p>
+              </div>
+
+              <div class="glass-panel p-6 rounded-3xl border-l-4 border-l-[#b39b5d]">
+                <h4 class="text-[10px] font-black text-slate-400 uppercase mb-3">Update</h4>
+                <p id="updateAJ" class="text-sm font-medium leading-relaxed text-slate-700">--</p>
+              </div>
+
+              <div class="glass-panel p-6 rounded-3xl">
+                <h4 class="text-[10px] font-black text-slate-400 uppercase mb-4">Recursos del Caso</h4>
+                <div class="space-y-2">
+                  <a id="fileM" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
+                    <i class="fas fa-file-lines text-indigo-500"></i><span class="text-[10px] font-bold">IA SUMMARY</span>
+                  </a>
+
+                  <a id="fileQ" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
+                    <i class="fas fa-shield-halved text-blue-500"></i><span class="text-[10px] font-bold">Risk Assessment</span>
+                  </a>
+
+                  <a id="fileW" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
+                    <i class="fas fa-file-circle-check text-emerald-500"></i><span class="text-[10px] font-bold">Evidence + Risk Assessment</span>
+                  </a>
+
+                  <a id="fileAH" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-navy text-[#0a192f] border border-slate-200 rounded-xl hover:bg-slate-100">
+                    <i class="fas fa-link text-indigo-500"></i><span class="text-[10px] font-bold">Dropbox</span>
+                  </a>
+                </div>
+
+                <p class="mt-4 text-[9px] font-bold text-slate-300 uppercase tracking-widest">
+                  Nota: Evidence + Risk puede venir vacío.
+                </p>
+              </div>
+            </div>
+
+            <!-- Panel Escritura -->
+            <div class="col-span-8">
+              <div class="glass-panel h-[600px] rounded-[2rem] flex flex-col p-8 border-t-8 border-t-[#b39b5d]">
+                <div class="flex justify-between items-center mb-6">
+                  <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Minuta de Llamada</h4>
+                  <div id="saveStatus" class="text-[9px] font-bold text-slate-300 uppercase">Listo para escribir</div>
+                </div>
+
+                <textarea id="aiInputArea" class="flex-1 bg-slate-50/50 p-6 rounded-2xl outline-none text-xl font-medium text-slate-800 placeholder-slate-300 custom-scrollbar" placeholder="Comienza a escribir aquí las notas de la llamada..."></textarea>
+
+                <div class="mt-4 flex justify-end">
+                  <button onclick="syncToSheet()" class="bg-[#0a192f] text-white px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 shadow-xl transition-all">
+                    ENVIAR
+                  </button>
+                </div>
+
+                <p class="mt-3 text-[9px] font-bold text-slate-300 uppercase tracking-widest text-right">
+                  Guarda en la columna AI
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="noClient" class="h-full flex flex-col items-center justify-center opacity-30">
+          <img src="https://cdn-icons-png.flaticon.com/512/3222/3222640.png" class="w-48 mb-6 grayscale">
+          <h1 class="font-serif-mendoza text-2xl tracking-widest">THE MENDOZA LAW FIRM</h1>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- AI CHAT SIDEBAR -->
+  <div id="aiSidebar" class="fixed right-0 top-0 h-full w-[500px] bg-white shadow-2xl transform translate-x-full transition-all duration-500 z-[150] flex flex-col">
+    <div class="p-8 bg-indigo-700 text-white flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <i class="fas fa-robot text-3xl"></i>
+        <h3 class="font-black text-lg uppercase leading-none">TRACKER Assistant</h3>
+      </div>
+      <button onclick="closeAI()"><i class="fas fa-times text-xl"></i></button>
+    </div>
+
+    <div id="aiChat" class="flex-1 overflow-y-auto p-8 space-y-4 bg-slate-50 custom-scrollbar">
+      <div class="bg-indigo-50 p-4 rounded-2xl text-[13px] font-medium text-indigo-900 leading-relaxed">
+        Hola. Puedo contestar SOLO con base en las notas de tramcase de este cliente. ¿Qué necesitas?
+      </div>
+    </div>
+
+    <!-- ✅ NUEVO: Pegado de contexto (MOVIDO AQUÍ, NO dentro del <script>) -->
+    <div class="px-6 pb-4">
+      <textarea id="aiContextPaste"
+        placeholder="Pega aquí el contexto/notes del cliente si AG no está disponible..."
+        class="w-full bg-slate-100 p-4 rounded-xl outline-none text-xs font-bold custom-scrollbar h-24"></textarea>
+
+      <button onclick="saveAIContext()"
+        class="mt-2 w-full bg-slate-900 text-white py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800">
+        Guardar Contexto
+      </button>
+    </div>
+
+    <div class="p-6 border-t bg-white">
+      <div class="flex gap-2">
+        <input id="aiQuestion" type="text" placeholder="Pregunta sobre las notas..." class="flex-1 bg-slate-100 px-6 py-4 rounded-xl outline-none font-bold text-sm">
+        <button onclick="askAI()" class="bg-indigo-600 text-white w-14 rounded-xl shadow-lg hover:bg-indigo-700">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // CONFIG: tu Apps Script Web App URL
+    // =========================
+    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyR47r3GM3XW7G6r9oxgp52xHZxYfg15W8-e37f8bs5Ynwq83BRE8ZXKKu0zYshXxk_Pg/exec";
+
+    // Lista attys
+    const attorneys = ["MARIA MENDOZA", "BETZAIDA SANTIAGO", "DANIEL PATIÑO"];
+
+    let currentUser = "";
+    let activeClientId = null;
+    let activeRowIndex = null;
+
+    let allCases = [];
+
+    // Views
+    let viewMode = "week";
+    let selectedMonthKey = null;       // "YYYY-MM"
+    let selectedWeekStartISO = null;   // "YYYY-MM-DD"
+
+    // -------- Navegación
+    window.showAttySelection = () => {
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+
+      const list = document.getElementById('attyList');
+      list.innerHTML = attorneys.map(n => `
+        <button onclick="enterPortal('${n}')" class="name-card w-full text-left p-6 border border-white/10 rounded-2xl font-black uppercase text-xs text-white tracking-widest shadow-xl">
+          ${n}
+        </button>
+      `).join('');
+    };
+
+    window.enterPortal = async (name) => {
+      currentUser = name;
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('portalMain').classList.remove('hidden');
+      document.getElementById('userNameDisplay').innerText = name;
+
+      await loadSheetData();
+      setViewMode("week");
+      renderLists();
+    };
+
+    async function loadSheetData() {
+      try {
+        const res = await fetch(`${SHEET_API_URL}?action=getCases`);
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "API inválido");
+        allCases = data.cases || [];
+      } catch (e) {
+        console.error(e);
+        alert("No pude cargar datos del Sheet. Revisa Web App / permisos.");
+      }
+    }
+
+    // -------- Helpers
+    function normalizeStr(s){ return (s||"").toString().trim().toUpperCase(); }
+
+    function parseDateFromSheet(val){
+      if (!val) return null;
+      const s = val.toString().trim();
+
+      // ✅ ISO yyyy-mm-dd como fecha LOCAL
+      const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (iso) return new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
+
+      const d1 = new Date(s);
+      if (!isNaN(d1.getTime())) return d1;
+
+      const parts = s.split(/[\/\-]/).map(x=>x.trim());
+      if (parts.length===3){
+        const a = parseInt(parts[0],10), b = parseInt(parts[1],10), c = parseInt(parts[2],10);
+        const dd = (a>12)?a:b;
+        const mm = (a>12)?b:a;
+        const yyyy = c;
+        const d2 = new Date(yyyy, mm-1, dd);
+        if (!isNaN(d2.getTime())) return d2;
+      }
+      return null;
+    }
+
+    function startOfDay(d){ const x = new Date(d); x.setHours(0,0,0,0); return x; }
+    function addDays(d,n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+    function toISO(d){
+      const x = new Date(d);
+      const yyyy = x.getFullYear();
+      const mm = String(x.getMonth()+1).padStart(2,'0');
+      const dd = String(x.getDate()).padStart(2,'0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function mondayOfWeek(d){
+      const x = startOfDay(d);
+      const day = x.getDay(); // 0 dom,1 lun
+      const diff = (day===0) ? -6 : (1 - day);
+      x.setDate(x.getDate()+diff);
+      return x;
+    }
+
+    function weeksInMonth(year, monthIndex0){
+      const first = new Date(year, monthIndex0, 1);
+      const last = new Date(year, monthIndex0 + 1, 0);
+      let cur = mondayOfWeek(first);
+      const weeks = [];
+      while (cur <= last){
+        const end = new Date(cur); end.setDate(end.getDate()+6);
+        weeks.push({ start: new Date(cur), end });
+        cur = addDays(cur, 7);
+      }
+      return weeks;
+    }
+
+    function formatWeekLabel(w){
+      const opts = { day:'2-digit', month:'short' };
+      const a = w.start.toLocaleDateString('es-MX', opts);
+      const b = w.end.toLocaleDateString('es-MX', opts);
+      return `SEMANA ${a.toUpperCase()} – ${b.toUpperCase()}`;
+    }
+
+    function formatMonthLabel(year, monthIndex0){
+      const d = new Date(year, monthIndex0, 1);
+      return d.toLocaleDateString('es-MX', { month:'long', year:'numeric' }).toUpperCase();
+    }
+
+    function formatSchedule(dateK, timeL){
+      const d = parseDateFromSheet(dateK);
+      const ds = d ? d.toLocaleDateString('es-MX', { year:'numeric', month:'short', day:'2-digit' }) : (dateK || "--");
+      const ts = timeL ? `• ${timeL}` : "";
+      return `${ds} ${ts}`.trim();
+    }
+
+    function applySearchFilter(list){
+      const q = normalizeStr(document.getElementById('sidebarSearch')?.value);
+      if (!q) return list;
+      return list.filter(c => normalizeStr(c.name).includes(q) || normalizeStr(c.id).includes(q));
+    }
+
+    function setLink(elId, urlOrText, fallback="#"){
+      const el = document.getElementById(elId);
+      const val = (urlOrText||"").toString().trim();
+      const isUrl = /^https?:\/\//i.test(val);
+      if (isUrl) {
+        el.href = val;
+        el.classList.remove("opacity-40","pointer-events-none");
+      } else {
+        el.href = fallback;
+        el.classList.add("opacity-40","pointer-events-none");
+      }
+    }
+
+    // ✅ NUEVO (mínimo): dedupe por ID tomando la fecha más cercana a hoy
+    function dateDistanceDays_(d, today){
+      if (!d) return 1e9;
+      const ms = startOfDay(d).getTime() - startOfDay(today).getTime();
+      return Math.abs(Math.round(ms / 86400000));
+    }
+
+    function pickBestForSameId_(a, b, today){
+      const da = parseDateFromSheet(a.dateK);
+      const db = parseDateFromSheet(b.dateK);
+
+      const distA = dateDistanceDays_(da, today);
+      const distB = dateDistanceDays_(db, today);
+
+      if (distA !== distB) return distA < distB ? a : b;
+
+      const aFuture = da && startOfDay(da) >= startOfDay(today);
+      const bFuture = db && startOfDay(db) >= startOfDay(today);
+      if (aFuture !== bFuture) return aFuture ? a : b;
+
+      return Number(a.rowIndex) >= Number(b.rowIndex) ? a : b;
+    }
+
+    function dedupeByIdClosestToToday_(cases, today){
+      const map = new Map();
+      for (const c of cases){
+        const key = (c.id || "").toString().trim();
+        if (!key) continue;
+        if (!map.has(key)) map.set(key, c);
+        else map.set(key, pickBestForSameId_(map.get(key), c, today));
+      }
+      return Array.from(map.values());
+    }
+
+    // ✅ UI: mostrar selección aun con panel cerrado
+    function updateMonthButtonLabel(){
+      const btn = document.getElementById("btnMonth");
+      if (!btn) return;
+
+      const chipWrap = document.getElementById("monthSelectionChip");
+      const chipMonth = document.getElementById("chipMonth");
+      const chipWeek = document.getElementById("chipWeek");
+
+      if (!selectedMonthKey){
+        btn.innerText = "Por Mes";
+        if (chipWrap) chipWrap.classList.add("hidden");
+        return;
+      }
+
+      const [yy, mm] = selectedMonthKey.split("-").map(Number);
+      const monthLabel = formatMonthLabel(yy, mm-1);
+
+      let weekLabel = "";
+      if (selectedWeekStartISO){
+        const ws = startOfDay(new Date(selectedWeekStartISO));
+        const we = addDays(ws, 6);
+        weekLabel = formatWeekLabel({start: ws, end: we});
+        btn.innerText = "Por Mes ✓";
+      } else {
+        btn.innerText = "Por Mes ✓";
+      }
+
+      if (chipWrap && chipMonth){
+        chipWrap.classList.remove("hidden");
+        chipMonth.textContent = monthLabel;
+
+        if (chipWeek){
+          if (weekLabel){
+            chipWeek.classList.remove("hidden");
+            chipWeek.textContent = weekLabel;
+          } else {
+            chipWeek.classList.add("hidden");
+            chipWeek.textContent = "";
+          }
+        }
+      }
+    }
+
+    window.clearMonthFilters = () => {
+      selectedMonthKey = null;
+      selectedWeekStartISO = null;
+      updateMonthButtonLabel();
+      renderLists();
+    };
+
+    // -------- Month dropdown open/close
+    function closeMonthPanel() {
+      const panel = document.getElementById("monthWeekPanel");
+      if (panel) panel.classList.add("hidden");
+    }
+    function openMonthPanel() {
+      const panel = document.getElementById("monthWeekPanel");
+      if (panel) panel.classList.remove("hidden");
+    }
+
+    // -------- Botones
+    window.setViewMode = (mode) => {
+      viewMode = mode;
+
+      const setActive = (id, active) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.toggle("bg-indigo-600", active);
+        el.classList.toggle("text-white", active);
+        el.classList.toggle("bg-slate-200", !active);
+        el.classList.toggle("text-slate-700", !active);
+      };
+
+      setActive("btnAll", mode === "all");
+      setActive("btnMonth", mode === "month");
+      setActive("btnToday", mode === "today");
+
+      const panel = document.getElementById("monthWeekPanel");
+      if (panel) {
+        if (mode === "month") {
+          panel.classList.toggle("hidden"); // (lo dejé como lo tenías)
+        } else {
+          panel.classList.add("hidden");
+        }
+      }
+
+      if (mode !== "month") {
+        selectedMonthKey = null;
+        selectedWeekStartISO = null;
+      }
+
+      updateMonthButtonLabel();
+      renderLists();
+    };
+
+    window.clearSearch = () => {
+      document.getElementById('sidebarSearch').value = "";
+      renderLists();
+    };
+
+    // ✅ (LIMPIO) Solo UNA vez:
+    window.selectMonth = (key) => {
+      selectedMonthKey = key;
+      selectedWeekStartISO = null;
+
+      document.getElementById("monthWeekPanel").classList.remove("hidden");
+      updateMonthButtonLabel();
+      renderLists();
+    };
+
+    // ✅ (LIMPIO) Solo UNA vez:
+    window.selectWeek = (iso) => {
+      selectedWeekStartISO = iso;
+      updateMonthButtonLabel();
+      renderLists();
+      document.getElementById("monthWeekPanel").classList.add("hidden");
+    };
+
+    // -------- Render lists
+    window.renderLists = () => {
+      const thisW = document.getElementById('thisWeekList');
+      const nextW = document.getElementById('nextWeeksList');
+      const panel = document.getElementById("monthWeekPanel");
+
+      const today = startOfDay(new Date());
+
+      const myCasesRaw = allCases.filter(c => normalizeStr(c.atty) === normalizeStr(currentUser));
+
+      // ✅ NUEVO: dedupe por ID (toma el callback más cercano a HOY)
+      const myCases = dedupeByIdClosestToToday_(myCasesRaw, today);
+
+      document.getElementById('totalCalls').innerText = myCases.length;
+
+      let base = myCases;
+
+      if (viewMode === "today") {
+        base = myCases.filter(c => {
+          const d = parseDateFromSheet(c.dateK);
+          return d && startOfDay(d).getTime() === today.getTime();
+        });
+      }
+
+      if (viewMode === "all") {
+        base = myCases;
+      }
+
+      if (viewMode === "month") {
+        if (panel && !panel.classList.contains("hidden")) {
+          panel.innerHTML = "";
+
+          const monthKeys = [...new Set(
+            myCases
+              .map(c => parseDateFromSheet(c.dateK))
+              .filter(Boolean)
+              .map(d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`)
+          )].sort();
+
+          panel.innerHTML += `
+            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2 pb-2">
+              Selecciona un mes
+            </div>
+          `;
+
+          panel.innerHTML += monthKeys.map(key => {
+            const [y, m] = key.split("-").map(Number);
+            const label = formatMonthLabel(y, m-1);
+            const active = selectedMonthKey === key;
+            return `
+              <button onclick="selectMonth('${key}')" class="w-full px-3 py-2 rounded-xl ${active ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-700'} text-[10px] font-black uppercase hover:bg-slate-200">
+                ${label}
+              </button>
+            `;
+          }).join("") || `<div class="text-[10px] font-black text-slate-300 uppercase tracking-widest text-center">Sin meses</div>`;
+
+          if (selectedMonthKey) {
+            const [yy, mm] = selectedMonthKey.split("-").map(Number);
+            const weeks = weeksInMonth(yy, mm-1);
+
+            panel.innerHTML += `
+              <div class="pt-3 mt-2 border-t border-slate-200 text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">
+                Selecciona una semana (se contrae al elegir)
+              </div>
+            `;
+
+            panel.innerHTML += weeks.map(w => {
+              const iso = toISO(w.start);
+              const active = selectedWeekStartISO === iso;
+              return `
+                <button onclick="selectWeek('${iso}')" class="w-full px-3 py-2 rounded-xl ${active ? 'bg-[#0a192f] text-white' : 'bg-white text-slate-700'} border border-slate-200 text-[10px] font-black uppercase hover:bg-slate-50">
+                  ${formatWeekLabel(w)}
+                </button>
+              `;
+            }).join("");
+          }
+        }
+
+        base = myCases;
+        if (selectedMonthKey) {
+          const [yy, mm] = selectedMonthKey.split("-").map(Number);
+          base = base.filter(c => {
+            const d = parseDateFromSheet(c.dateK);
+            return d && d.getFullYear() === yy && (d.getMonth()+1) === mm;
+          });
+
+          if (selectedWeekStartISO) {
+            const ws = startOfDay(new Date(selectedWeekStartISO));
+            const we = addDays(ws, 6);
+            base = base.filter(c => {
+              const d = parseDateFromSheet(c.dateK);
+              if (!d) return false;
+              const x = startOfDay(d);
+              return x >= ws && x <= we;
+            });
+          }
+        }
+      }
+
+      const filtered = applySearchFilter(base);
+
+      const withinThisWeek = (d) => {
+        if (!d) return false;
+        const start = today;
+        const end = addDays(today, 7);
+        const x = startOfDay(d);
+        return x >= start && x <= end;
+      };
+
+      const isFutureBeyondWeek = (d) => {
+        if (!d) return false;
+        const cutoff = addDays(today, 7);
+        const x = startOfDay(d);
+        return x > startOfDay(cutoff);
+      };
+
+      const sortByDateTime = (a,b) => {
+        const da = parseDateFromSheet(a.dateK) || new Date(0);
+        const db = parseDateFromSheet(b.dateK) || new Date(0);
+        const ta = (a.timeL||"").toString();
+        const tb = (b.timeL||"").toString();
+        return (`${toISO(da)} ${ta}`).localeCompare(`${toISO(db)} ${tb}`);
+      };
+
+      const renderCard = (c) => `
+        <div onclick="selectClientByRow(${Number(c.rowIndex)})" class="client-card p-5 bg-white border border-slate-100 rounded-2xl cursor-pointer transition-all hover:shadow-md border-l-4 border-l-transparent ${activeClientId === c.id ? 'ring-2 ring-indigo-200' : ''}">
+          <p class="text-[9px] font-black text-blue-600 uppercase mb-1">Callback Programado</p>
+          <p class="font-black text-slate-900 text-sm uppercase">${c.name || '--'}</p>
+          <p class="text-[9px] font-black text-slate-300 uppercase tracking-widest mt-2">${formatSchedule(c.dateK, c.timeL)}</p>
+        </div>
+      `;
+
+      let weekList = [];
+      let nextList = [];
+
+      if (viewMode === "month" && selectedMonthKey) {
+        weekList = filtered.slice().sort(sortByDateTime);
+        nextList = [];
+      } else {
+        weekList = filtered.filter(c => withinThisWeek(parseDateFromSheet(c.dateK))).sort(sortByDateTime);
+        nextList = filtered.filter(c => isFutureBeyondWeek(parseDateFromSheet(c.dateK))).sort(sortByDateTime);
+      }
+
+      thisW.innerHTML = weekList.map(renderCard).join('') ||
+        `<div class="p-6 text-center text-xs font-bold text-slate-300 uppercase tracking-widest">Sin resultados</div>`;
+      nextW.innerHTML = nextList.map(renderCard).join('') ||
+        `<div class="p-6 text-center text-xs font-bold text-slate-200 uppercase tracking-widest">Sin resultados</div>`;
+
+      updateMonthButtonLabel();
+    };
+
+    // ✅ NUEVO: Select client por rowIndex (evita choque de IDs repetidos)
+    window.selectClientByRow = (rowIndex) => {
+      activeRowIndex = Number(rowIndex || 0) || null;
+      const c = allCases.find(x => Number(x.rowIndex) === Number(rowIndex));
+      if (!c) return;
+
+      activeClientId = c.id || null;
+
+      document.getElementById('noClient').classList.add('hidden');
+      document.getElementById('clientView').classList.remove('hidden');
+
+      document.getElementById('clientName').innerText = c.name || "--";
+      document.getElementById('clientId').innerText = `ID DE CLIENTE: ${c.id || "--"}`;
+      document.getElementById('clientSchedule').innerText = `CALLBACK: ${formatSchedule(c.dateK, c.timeL)}`;
+
+      document.getElementById('callReason').innerText = c.colC || "--";
+      document.getElementById('updateAJ').innerText = c.colAJ || "--";
+
+      setLink("fileM", c.colM, "#");
+      setLink("fileQ", c.colQ, "#");
+      setLink("fileW", c.colW, "#");
+      setLink("fileAH", c.colAH, "#");
+
+      document.getElementById('aiInputArea').value = (c.colAI || "").toString();
+
+      renderLists();
+    };
+
+    // -------- Select client (se deja por compatibilidad, pero ya no se usa en cards)
+    window.selectClient = (id) => {
+      activeClientId = id;
+      const c = allCases.find(x => x.id === id);
+      if (!c) return;
+
+      activeRowIndex = Number(c.rowIndex || 0) || null;
+
+      document.getElementById('noClient').classList.add('hidden');
+      document.getElementById('clientView').classList.remove('hidden');
+
+      document.getElementById('clientName').innerText = c.name || "--";
+      document.getElementById('clientId').innerText = `ID DE CLIENTE: ${c.id || "--"}`;
+      document.getElementById('clientSchedule').innerText = `CALLBACK: ${formatSchedule(c.dateK, c.timeL)}`;
+
+      document.getElementById('callReason').innerText = c.colC || "--";
+      document.getElementById('updateAJ').innerText = c.colAJ || "--";
+
+      setLink("fileM", c.colM, "#");
+      setLink("fileQ", c.colQ, "#");
+      setLink("fileW", c.colW, "#");
+      setLink("fileAH", c.colAH, "#");
+
+      document.getElementById('aiInputArea').value = (c.colAI || "").toString();
+
+      renderLists();
+    };
+
+    // -------- Sync to sheet (AI)
+    window.syncToSheet = async () => {
+      if (!activeRowIndex) {
+        alert("No tengo la fila del Sheet para este cliente.");
+        return;
+      }
+
+      const content = document.getElementById('aiInputArea').value;
+      const status = document.getElementById('saveStatus');
+      status.innerText = "Enviando...";
+
+      try {
+        const body = new URLSearchParams({
+          action: "updateAI",
+          rowIndex: String(activeRowIndex),
+          value: content
+        });
+
+        const res = await fetch(SHEET_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body
+        });
+
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "No se pudo guardar");
+
+        status.innerText = "Enviado ✓";
+        await loadSheetData();
+        renderLists();
+      } catch (e) {
+        console.error(e);
+        status.innerText = "Error";
+        alert("Error guardando en Google Sheets. Revisa el Apps Script (deploy/permissions).");
+      }
+    };
+
+    // -------- AI Sidebar
+    window.openAI = () => document.getElementById('aiSidebar').classList.remove('translate-x-full');
+    window.closeAI = () => document.getElementById('aiSidebar').classList.add('translate-x-full');
+
+    // ✅ NUEVO: guardar contexto pegado (fallback)
+    window.saveAIContext = async () => {
+      if (!activeRowIndex) return alert("Primero selecciona un cliente.");
+
+      const box = document.getElementById("aiContextPaste");
+      if (!box) return alert("No encuentro el textarea de contexto (aiContextPaste).");
+
+      const text = box.value.trim();
+      if (!text) return alert("Pega el contexto primero.");
+
+      const body = new URLSearchParams({
+        action: "setContext",
+        rowIndex: String(activeRowIndex),
+        text
+      });
+
+      const res = await fetch(SHEET_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body
+      });
+
+      const data = await res.json();
+      if (!data.ok) return alert(data.error || "No se pudo guardar el contexto.");
+
+      alert("Contexto guardado. Ya puedes preguntarle al bot.");
+    };
+
+    // -------- Ask AI (via Apps Script)
+    window.askAI = async () => {
+      const input = document.getElementById('aiQuestion');
+      const q = input.value;
+      if (!q || !activeRowIndex) return;
+
+      const chat = document.getElementById('aiChat');
+      chat.innerHTML += `<div class="bg-slate-200 p-4 rounded-2xl text-xs font-bold ml-10 text-right">${q}</div>`;
+      input.value = "";
+
+      try {
+        const body = new URLSearchParams({
+          action: "askAI",
+          rowIndex: String(activeRowIndex),
+          question: q
+        });
+
+        const res = await fetch(SHEET_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body
+        });
+
+        const data = await res.json();
+        const text = data.ok ? data.answer : (data.error || "Error");
+
+        chat.innerHTML += `<div class="bg-indigo-600 text-white p-4 rounded-2xl text-[13px] font-medium mr-10 shadow-lg">${text}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      } catch (e) {
+        chat.innerHTML += `<div class="bg-red-600 text-white p-4 rounded-2xl text-[13px] font-medium mr-10 shadow-lg">Error conectando al bot.</div>`;
+      }
+    };
+  </script>
+</body>
+</html>
