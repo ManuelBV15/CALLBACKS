@@ -7,7 +7,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;600;700;800&display=swap');
 
@@ -15,142 +14,66 @@
       --mendoza-gold:#b39b5d;
       --mendoza-navy:#0a192f;
       --mendoza-indigo:#4f46e5;
+      --color-primary:#4f46e5;
+      --color-info:#0ea5e9;
+      --color-success:#10b981;
+      --color-warning:#f59e0b;
+      --color-danger:#ef4444;
+      --color-muted:#94a3b8;
     }
 
-    body {
-      font-family:'Inter',sans-serif;
-      background-color:#f4f7f9;
-    }
-
+    body { font-family:'Inter',sans-serif; background-color:#f4f7f9; }
     .font-serif-mendoza { font-family:'Cinzel',serif; }
-    .welcome-fade-in { animation: fadeIn 1.5s ease-out forwards; }
-
-    @keyframes fadeIn {
-      from { opacity:0; transform:translateY(20px); }
-      to { opacity:1; transform:translateY(0); }
-    }
-
-    .name-card {
-      background: rgba(255,255,255,0.05);
-      transition: all 0.3s ease;
-    }
-
-    .name-card:hover {
-      transform: scale(1.02);
-      border-color: var(--mendoza-gold);
-      background:white;
-      color:var(--mendoza-navy);
-    }
-
-    .glass-panel {
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(10px);
-      border:1px solid rgba(226,232,240,0.8);
-    }
-
+    .welcome-fade-in { animation: fadeIn 1.2s ease-out forwards; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .name-card { background: rgba(255,255,255,0.05); transition: all 0.22s ease; }
+    .name-card:hover { transform: scale(1.02); border-color: var(--mendoza-gold); background:white; color:var(--mendoza-navy); }
+    .glass-panel { background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); border:1px solid rgba(226,232,240,0.8); }
     .ai-glow { animation: glow 2s infinite alternate; }
-
-    @keyframes glow {
-      from { box-shadow:0 0 5px #4f46e5; }
-      to { box-shadow:0 0 20px #4f46e5; }
-    }
-
-    .custom-scrollbar::-webkit-scrollbar { width:5px; height:5px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:10px; }
-
-    .metric-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease; }
-    .metric-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(15,23,42,.06);
-    }
-
-    .metric-filter-card {
-      cursor: pointer;
-      border: 2px solid transparent;
-      user-select: none;
-    }
-
-    .metric-filter-card.active {
-      border-color: var(--mendoza-indigo);
-      box-shadow: 0 14px 30px rgba(79,70,229,.15);
-      background: linear-gradient(180deg, rgba(79,70,229,.04), rgba(255,255,255,.95));
-    }
-
-    .event-card { transition: all .2s ease; }
-    .event-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(79,70,229,.08);
-    }
-
-    .mini-day {
-      width: 38px;
-      height: 38px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 999px;
-      font-weight: 800;
-      font-size: 13px;
-      position: relative;
-      transition: all .18s ease;
-    }
-
-    .mini-day.has-events::after {
-      content:"";
-      position:absolute;
-      bottom:4px;
-      left:50%;
-      transform: translateX(-50%);
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background:#4f46e5;
-    }
-
+    @keyframes glow { from { box-shadow:0 0 5px #4f46e5; } to { box-shadow:0 0 20px #4f46e5; } }
+    .custom-scrollbar::-webkit-scrollbar { width:6px; height:6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:999px; }
+    .metric-card { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background-color .18s ease; }
+    .metric-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(15,23,42,.06); }
+    .metric-filter-card { cursor:pointer; border:2px solid transparent; user-select:none; }
+    .metric-filter-card.active { border-color:var(--mendoza-indigo); box-shadow:0 14px 30px rgba(79,70,229,.15); background:linear-gradient(180deg, rgba(79,70,229,.04), rgba(255,255,255,.95)); }
+    .event-card { transition: all .18s ease; }
+    .event-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(79,70,229,.08); }
+    .mini-day { width:38px; height:38px; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:800; font-size:13px; position:relative; transition:all .15s ease; }
+    .mini-day.has-events::after { content:""; position:absolute; bottom:4px; left:50%; transform:translateX(-50%); width:6px; height:6px; border-radius:999px; background:#4f46e5; }
     .table-wrap { overflow:auto; }
-    .table-wrap table { min-width: 1200px; }
-
-    .kpi-chip {
-      display:inline-flex;
-      align-items:center;
-      gap:.5rem;
-      padding:.55rem .85rem;
-      border-radius:999px;
-      background:#eef2ff;
-      color:#4338ca;
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:.12em;
-      text-transform:uppercase;
+    .table-wrap table { min-width: 1280px; }
+    .kpi-chip { display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .85rem; border-radius:999px; background:#eef2ff; color:#4338ca; font-size:10px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    .disabled-send { opacity:.45; pointer-events:none; }
+    .timeline-line::before { content:""; position:absolute; left:11px; top:8px; bottom:8px; width:2px; background:#e2e8f0; }
+    .timeline-card:hover { border-color:#c7d2fe; box-shadow:0 10px 25px rgba(79,70,229,.08); }
+    .funnel-step { position:relative; overflow:hidden; }
+    .funnel-shape { clip-path: polygon(0% 0%, 100% 0%, 92% 100%, 8% 100%); }
+    .pulse-ring { animation: pulseRing 1.4s infinite; }
+    @keyframes pulseRing {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239,68,68,.55); }
+      70% { transform: scale(1.02); box-shadow: 0 0 0 18px rgba(239,68,68,0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239,68,68,0); }
     }
-
   </style>
 </head>
-
 <body class="h-screen overflow-hidden text-slate-800">
 
-  <!-- PANTALLA 1: BIENVENIDA -->
   <div id="welcomeScreen" class="fixed inset-0 bg-[#0a192f] z-[110] flex flex-col items-center justify-center p-6 text-center">
     <div class="welcome-fade-in space-y-8">
       <div class="space-y-2">
         <h1 class="text-white text-6xl font-serif-mendoza tracking-[0.3em]">BIENVENIDO</h1>
         <p class="text-[#b39b5d] font-bold tracking-[0.5em] uppercase text-sm">Portal de Call Backs de Mendoza Law Firm</p>
       </div>
-
-      <button
-        onclick="showAttySelection()"
-        class="mt-12 px-12 py-4 bg-[#b39b5d] text-white font-black rounded-full hover:bg-white hover:text-[#0a192f] transition-all transform hover:scale-110 uppercase tracking-widest text-xs">
+      <button onclick="showAttySelection()" class="mt-12 px-12 py-4 bg-[#b39b5d] text-white font-black rounded-full hover:bg-white hover:text-[#0a192f] transition-all transform hover:scale-110 uppercase tracking-widest text-xs">
         Acceder al Portal
       </button>
     </div>
   </div>
 
-  <!-- PANTALLA 2: SELECCIÓN DE ATTORNEY -->
   <div id="loginScreen" class="hidden fixed inset-0 bg-[#0a192f] z-[100] flex flex-col items-center justify-center p-6">
     <div class="absolute top-6 right-6">
-      <button
-        onclick="openFutureDashboard()"
-        class="px-5 py-3 bg-white text-[#0a192f] font-black rounded-2xl hover:bg-[#b39b5d] hover:text-white transition-all uppercase tracking-widest text-[10px] shadow-xl">
+      <button onclick="openFutureDashboard()" class="px-5 py-3 bg-white text-[#0a192f] font-black rounded-2xl hover:bg-[#b39b5d] hover:text-white transition-all uppercase tracking-widest text-[10px] shadow-xl">
         Visualizar Dashboard
       </button>
     </div>
@@ -160,33 +83,23 @@
         <h1 class="text-white text-4xl font-serif-mendoza tracking-[0.2em]">MENDOZA LAW FIRM</h1>
         <p class="text-[#b39b5d] font-bold tracking-[0.3em] uppercase text-[10px]">Por favor selecciona tu nombre de Attorney</p>
       </div>
-
       <div class="max-w-lg mx-auto max-h-[560px] overflow-y-auto custom-scrollbar pr-2">
         <div id="attyList"></div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN PORTAL -->
   <div id="portalMain" class="hidden h-screen flex flex-col bg-slate-100">
     <header class="h-24 bg-white border-b border-slate-200 flex items-center justify-between px-8">
-      <div class="flex items-center gap-8">
-        <div>
-          <h1 id="mainTitle" class="text-4xl font-black tracking-tight text-[#0a192f] uppercase leading-none">Agenda completa</h1>
-          <p id="mainSubtitle" class="text-[12px] font-black uppercase tracking-widest text-slate-400 mt-1">Actualizado hoy</p>
-        </div>
+      <div>
+        <h1 id="mainTitle" class="text-4xl font-black tracking-tight text-[#0a192f] uppercase leading-none">Agenda completa</h1>
+        <p id="mainSubtitle" class="text-[12px] font-black uppercase tracking-widest text-slate-400 mt-1">Actualizado hoy</p>
       </div>
 
       <div class="flex items-center gap-6">
         <div id="dashboardSearchWrap" class="relative w-[320px]">
           <i class="fas fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input
-            id="dashboardSearch"
-            type="text"
-            placeholder="Buscar expediente..."
-            oninput="renderActiveView()"
-            class="w-full bg-slate-100 border border-slate-200 rounded-full pl-11 pr-4 py-3 text-sm font-bold outline-none"
-          >
+          <input id="dashboardSearch" type="text" placeholder="Buscar expediente..." oninput="renderActiveView()" class="w-full bg-slate-100 border border-slate-200 rounded-full pl-11 pr-4 py-3 text-sm font-bold outline-none">
         </div>
 
         <div class="text-right">
@@ -194,45 +107,40 @@
           <div id="userRoleDisplay" class="text-[10px] font-black uppercase tracking-widest text-slate-400">Attorney</div>
         </div>
 
-        <div id="userAvatar" class="w-12 h-12 rounded-full bg-[#b39b5d] text-white flex items-center justify-center font-black text-sm shadow">
-          --
-        </div>
+        <div id="userAvatar" class="w-12 h-12 rounded-full bg-[#b39b5d] text-white flex items-center justify-center font-black text-sm shadow">--</div>
 
-        <button
-          id="btnTrackingView"
-          onclick="openTrackingView()"
-          class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-indigo-700 uppercase">
+        <button id="btnTrackingView" onclick="openTrackingView()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-indigo-700 uppercase">
           Seguimiento clientes
         </button>
 
         <div class="flex items-center gap-2">
-          <button
-            onclick="goBack()"
-            class="bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-xs font-black hover:bg-slate-200 uppercase">
-            Regresar
-          </button>
-
-          <button
-            onclick="location.reload()"
-            class="bg-[#0a192f] text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-slate-800 uppercase">
-            Salir
-          </button>
+          <button onclick="goBack()" class="bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl text-xs font-black hover:bg-slate-200 uppercase">Regresar</button>
+          <button onclick="logoutPortal()" class="bg-[#0a192f] text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-slate-800 uppercase">Salir</button>
+          <button onclick="refreshSheetData()"class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-indigo-700 uppercase">Refrescar Sheet</button>
         </div>
       </div>
     </header>
 
     <main class="flex-1 overflow-y-auto p-8 custom-scrollbar">
-
-      <!-- DASHBOARD VIEW ATTORNEY -->
       <div id="dashboardView" class="space-y-8">
-        <div class="grid grid-cols-4 gap-6">
+        <div class="grid grid-cols-3 gap-6">
           <div class="metric-card glass-panel rounded-[2rem] p-7 flex items-center gap-5">
             <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-3xl">
               <i class="fas fa-phone"></i>
             </div>
             <div>
-              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Total llamadas</div>
+              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Total histórico de llamadas</div>
               <div id="metricTotal" class="text-5xl font-black text-[#0a192f] leading-none mt-1">0</div>
+            </div>
+          </div>
+
+          <div class="metric-card glass-panel rounded-[2rem] p-7 flex items-center gap-5">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-3xl">
+              <i class="fas fa-check"></i>
+            </div>
+            <div>
+              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Completadas históricamente</div>
+              <div id="metricDoneHistoric" class="text-5xl font-black text-[#0a192f] leading-none mt-1">0</div>
             </div>
           </div>
 
@@ -245,26 +153,6 @@
               <div id="metricPendingToday" class="text-5xl font-black text-orange-500 leading-none mt-1">0</div>
             </div>
           </div>
-
-          <div class="metric-card glass-panel rounded-[2rem] p-7 flex items-center gap-5">
-            <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-3xl">
-              <i class="fas fa-check"></i>
-            </div>
-            <div>
-              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Completadas</div>
-              <div id="metricDone" class="text-5xl font-black text-[#0a192f] leading-none mt-1">0</div>
-            </div>
-          </div>
-
-          <div class="metric-card glass-panel rounded-[2rem] p-7 flex items-center gap-5">
-            <div class="w-16 h-16 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center text-3xl">
-              <i class="fas fa-calendar-day"></i>
-            </div>
-            <div>
-              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Para hoy</div>
-              <div id="metricToday" class="text-5xl font-black text-[#0a192f] leading-none mt-1">0</div>
-            </div>
-          </div>
         </div>
 
         <div class="grid grid-cols-12 gap-8">
@@ -275,17 +163,14 @@
                   <div class="text-3xl font-black tracking-tight text-[#0a192f] uppercase leading-none">Calendario</div>
                   <div class="text-3xl font-black tracking-tight text-[#4f46e5] uppercase leading-none mt-1">Visual</div>
                 </div>
-
                 <div class="text-right">
                   <div id="miniCalendarMonth" class="text-3xl font-black text-[#4f46e5] uppercase leading-none">---</div>
                   <div id="miniCalendarYear" class="text-3xl font-black text-[#4f46e5] uppercase leading-none">----</div>
                 </div>
               </div>
-
               <div class="grid grid-cols-7 gap-y-4 text-center text-[11px] font-black uppercase tracking-widest text-slate-300 mb-4">
                 <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
               </div>
-
               <div id="miniMonthGrid" class="grid grid-cols-7 gap-y-4 place-items-center"></div>
             </div>
           </div>
@@ -297,114 +182,53 @@
                   <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Seguimiento Callbacks</h3>
                   <p id="followupLabel" class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-1">--</p>
                 </div>
-
                 <div class="flex gap-2">
-                  <button id="btnCalWeek" onclick="toggleCalendarMode()" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">
-                    Ver toda la semana
-                  </button>
-                  <button onclick="shiftCalendarWeek(-7)" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">
-                    ← Semana
-                  </button>
-                  <button onclick="resetCalendarWeek()" class="px-4 py-2 rounded-xl bg-indigo-600 text-white text-[11px] font-black uppercase hover:bg-indigo-700">
-                    Hoy
-                  </button>
-                  <button onclick="shiftCalendarWeek(7)" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">
-                    Semana →
-                  </button>
+                  <button id="btnCalWeek" onclick="toggleCalendarMode()" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">Ver toda la semana</button>
+                  <button onclick="shiftCalendarWeek(-7)" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">← Semana</button>
+                  <button onclick="resetCalendarWeek()" class="px-4 py-2 rounded-xl bg-indigo-600 text-white text-[11px] font-black uppercase hover:bg-indigo-700">Hoy</button>
+                  <button onclick="shiftCalendarWeek(7)" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">Semana →</button>
                 </div>
               </div>
-
               <div id="followupCards" class="grid grid-cols-2 gap-4"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- DASH GENERAL -->
       <div id="executiveDashboardView" class="hidden space-y-8">
         <div class="glass-panel rounded-[2rem] p-8">
           <div class="flex items-center justify-between gap-6 flex-wrap">
             <div>
               <h2 class="text-4xl font-black tracking-tight text-[#0a192f] uppercase">Seguimiento Callbacks</h2>
-              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">
-                Volumen, escalaciones, urgencias, liberaciones y distribución operativa
-              </p>
+              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Volumen, escalaciones, urgencias, liberaciones y distribución operativa</p>
             </div>
-
             <div class="flex gap-3 flex-wrap">
-              <select id="dashFilterAttorney" onchange="renderExecutiveDashboard()"
-                class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[220px]">
-                <option value="">Todos los attorneys</option>
-              </select>
-
-              <select id="dashFilterArea" onchange="renderExecutiveDashboard()"
-                class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[220px]">
-                <option value="">Todas las áreas</option>
-              </select>
-
-              <select id="dashFilterWeek" onchange="renderExecutiveDashboard()"
-                class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[180px]">
-                <option value="">Todas las semanas</option>
-              </select>
+              <select id="dashFilterAttorney" onchange="renderExecutiveDashboard()" class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[220px]"><option value="">Todos los attorneys</option></select>
+              <select id="dashFilterArea" onchange="renderExecutiveDashboard()" class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[220px]"><option value="">Todas las áreas</option></select>
+              <select id="dashFilterWeek" onchange="renderExecutiveDashboard()" class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[180px]"><option value="">Todas las semanas</option></select>
             </div>
           </div>
-
           <div class="mt-5 flex items-center justify-between gap-4 flex-wrap">
-            <div id="dashActiveFilterLabel" class="kpi-chip">
-              <i class="fas fa-filter"></i>
-              <span>Filtro activo: Todos</span>
-            </div>
-
-            <button
-              onclick="clearExecutiveMetricFilter()"
-              class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">
-              Limpiar filtro KPI
-            </button>
+            <div id="dashActiveFilterLabel" class="kpi-chip"><i class="fas fa-filter"></i><span>Filtro activo: Todos</span></div>
+            <button onclick="clearExecutiveMetricFilter()" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200">Limpiar filtro KPI</button>
           </div>
         </div>
 
         <div class="grid grid-cols-6 gap-6">
-          <div id="cardMetricTotal" onclick="setExecutiveMetricFilter('total')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Total casos</div>
-            <div id="dashMetricTotal" class="text-5xl font-black text-[#0a192f] mt-2">0</div>
-          </div>
-
-          <div id="cardMetricUrgent" onclick="setExecutiveMetricFilter('urgent')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Urgentes</div>
-            <div id="dashMetricUrgent" class="text-5xl font-black text-orange-500 mt-2">0</div>
-          </div>
-
-          <div id="cardMetricPre" onclick="setExecutiveMetricFilter('pre')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Escalados Pre-Callbacks</div>
-            <div id="dashMetricPre" class="text-5xl font-black text-sky-600 mt-2">0</div>
-          </div>
-
-          <div id="cardMetricPost" onclick="setExecutiveMetricFilter('post')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Escalados Post-Callbacks</div>
-            <div id="dashMetricPost" class="text-5xl font-black text-red-500 mt-2">0</div>
-          </div>
-
-          <div id="cardMetricReleased" onclick="setExecutiveMetricFilter('released')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Liberados</div>
-            <div id="dashMetricReleased" class="text-5xl font-black text-emerald-500 mt-2">0</div>
-          </div>
-
-          <div id="cardMetricOverdue" onclick="setExecutiveMetricFilter('overdue')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Vencidos</div>
-            <div id="dashMetricOverdue" class="text-5xl font-black text-red-600 mt-2">0</div>
-          </div>
+          <div id="cardMetricTotal" onclick="setExecutiveMetricFilter('total')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6"><div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Total casos</div><div id="dashMetricTotal" class="text-5xl font-black text-[#0a192f] mt-2">0</div></div>
+          <div id="cardMetricUrgent" onclick="setExecutiveMetricFilter('urgent')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6"><div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Urgentes</div><div id="dashMetricUrgent" class="text-5xl font-black text-orange-500 mt-2">0</div></div>
+          <div id="cardMetricPre" onclick="setExecutiveMetricFilter('pre')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6"><div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Escalados Pre-Callbacks</div><div id="dashMetricPre" class="text-5xl font-black text-sky-600 mt-2">0</div></div>
+          <div id="cardMetricPost" onclick="setExecutiveMetricFilter('post')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6"><div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Escalados Post-Callbacks</div><div id="dashMetricPost" class="text-5xl font-black text-red-500 mt-2">0</div></div>
+          <div id="cardMetricReleased" onclick="setExecutiveMetricFilter('released')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6"><div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Liberados</div><div id="dashMetricReleased" class="text-5xl font-black text-emerald-500 mt-2">0</div></div>
+          <div id="cardMetricOverdue" onclick="setExecutiveMetricFilter('overdue')" class="metric-card metric-filter-card glass-panel rounded-[2rem] p-6"><div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Vencidos</div><div id="dashMetricOverdue" class="text-5xl font-black text-red-600 mt-2">0</div></div>
         </div>
 
         <div class="glass-panel rounded-[2rem] p-8">
           <div class="mb-6">
             <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Distribución por Attorney</h3>
-            <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">
-              Total · Escalados Post-Callbacks · Urgentes · Liberados
-            </p>
+            <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Total · Escalados · Urgentes · Liberados</p>
           </div>
-          <div class="h-[430px]">
-            <canvas id="attorneyComparisonChart"></canvas>
-          </div>
+          <div class="h-[480px]"><canvas id="attorneyComparisonChart"></canvas></div>
         </div>
 
         <div class="grid grid-cols-2 gap-8">
@@ -413,14 +237,12 @@
               <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Distribución por área</h3>
               <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Área pre y área post consolidadas</p>
             </div>
-            <div class="h-[340px]">
-              <canvas id="areaDistributionChart"></canvas>
-            </div>
+            <div class="h-[380px]"><canvas id="areaDistributionChart"></canvas></div>
           </div>
 
           <div class="glass-panel rounded-[2rem] p-8">
             <div class="mb-6">
-              <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Pipeline operativo</h3>
+              <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Flujo Operativo</h3>
               <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Pre · Post · Final</p>
             </div>
             <div class="space-y-4" id="pipelineSummaryWrap"></div>
@@ -429,44 +251,24 @@
 
         <div class="grid grid-cols-3 gap-8">
           <div class="glass-panel rounded-[2rem] p-8">
-            <div class="mb-6">
-              <h3 class="text-xl font-black text-[#0a192f] uppercase tracking-tight">Tendencia semanal</h3>
-              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Casos por semana</p>
-            </div>
-            <div class="h-[320px]">
-              <canvas id="weeklyTrendChart"></canvas>
-            </div>
+            <div class="mb-6"><h3 class="text-xl font-black text-[#0a192f] uppercase tracking-tight">Tendencia semanal</h3><p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Casos por semana</p></div>
+            <div class="h-[360px]"><canvas id="weeklyTrendChart"></canvas></div>
           </div>
-
           <div class="glass-panel rounded-[2rem] p-8">
-            <div class="mb-6">
-              <h3 class="text-xl font-black text-[#0a192f] uppercase tracking-tight">Status solicitud</h3>
-              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Distribución por Post Status</p>
-            </div>
-            <div class="h-[320px]">
-              <canvas id="statusDistributionChart"></canvas>
-            </div>
+            <div class="mb-6"><h3 class="text-xl font-black text-[#0a192f] uppercase tracking-tight">Status solicitud</h3><p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Distribución por Post Status</p></div>
+            <div class="h-[360px]"><canvas id="statusDistributionChart"></canvas></div>
           </div>
-
           <div class="glass-panel rounded-[2rem] p-8">
-            <div class="mb-6">
-              <h3 class="text-xl font-black text-[#0a192f] uppercase tracking-tight">Buckets de deadline</h3>
-              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Vencidos · 0-3 · 4-7 · 8+ · Sin fecha</p>
-            </div>
-            <div class="h-[320px]">
-              <canvas id="deadlineBucketsChart"></canvas>
-            </div>
+            <div class="mb-6"><h3 class="text-xl font-black text-[#0a192f] uppercase tracking-tight">Buckets de deadline</h3><p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Vencidos · 0-3 · 4-7 · 8+ · Sin fecha</p></div>
+            <div class="h-[360px]"><canvas id="deadlineBucketsChart"></canvas></div>
           </div>
         </div>
 
         <div class="glass-panel rounded-[2rem] p-8">
           <div class="mb-6">
-            <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Casos críticos</h3>
-            <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">
-              Urgentes, vencidos o con deadline muy próxima
-            </p>
+            <h3 class="text-2xl font-black text-[#0a192f] uppercase tracking-tight">Casos escalados</h3>
+            <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-2">Todos los casos con Post Needed = SI</p>
           </div>
-
           <div class="table-wrap custom-scrollbar">
             <table class="w-full border-separate border-spacing-y-2">
               <thead>
@@ -478,7 +280,7 @@
                   <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Deadline</th>
                   <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Días</th>
                   <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Urgente</th>
-                  <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Final</th>
+                  <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Timeline</th>
                 </tr>
               </thead>
               <tbody id="criticalCasesTableBody"></tbody>
@@ -487,7 +289,6 @@
         </div>
       </div>
 
-      <!-- CLIENT VIEW -->
       <div id="clientView" class="hidden space-y-6">
         <div class="flex justify-between items-start">
           <div>
@@ -496,10 +297,16 @@
             <p id="clientSchedule" class="text-[10px] font-black text-slate-300 mt-2 uppercase tracking-widest">--</p>
           </div>
 
-          <button onclick="openAI()" class="ai-glow bg-indigo-600 text-white px-8 py-4 rounded-2xl flex flex-col items-center hover:scale-105 transition-all">
-            <span class="font-black uppercase tracking-tight">IA Bot de Notas 🤖</span>
-            <span class="text-[8px] opacity-70 uppercase">Limitado a clientes de callbacks</span>
-          </button>
+          <div class="flex items-center gap-3">
+            <button id="timelineOpenBtn" onclick="openClientTimeline()" class="bg-slate-900 text-white px-6 py-4 rounded-2xl flex flex-col items-center hover:scale-105 transition-all">
+              <span class="font-black uppercase tracking-tight">Timeline</span>
+              <span class="text-[8px] opacity-70 uppercase">Historial del cliente</span>
+            </button>
+            <button onclick="openAI()" class="ai-glow bg-indigo-600 text-white px-8 py-4 rounded-2xl flex flex-col items-center hover:scale-105 transition-all">
+              <span class="font-black uppercase tracking-tight">IA Bot de Notas 🤖</span>
+              <span class="text-[8px] opacity-70 uppercase">Limitado a clientes de callbacks</span>
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-12 gap-6">
@@ -517,88 +324,54 @@
             <div class="glass-panel p-6 rounded-3xl">
               <h4 class="text-[10px] font-black text-slate-400 uppercase mb-4">Recursos del Caso</h4>
               <div class="space-y-2">
-                <a id="fileRiskAssessment" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
-                  <i class="fas fa-file-pen text-[#b39b5d] w-5 text-center"></i>
-                  <span class="text-[10px] font-bold">Risk Assessment</span>
-                </a>
-
-                <a id="fileDriveFolder" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
-                  <i class="fas fa-folder-open text-amber-500 w-5 text-center"></i>
-                  <span class="text-[10px] font-bold">Drive Folder</span>
-                </a>
-
-                <a id="fileDropbox" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
-                  <i class="fas fa-link text-indigo-500 w-5 text-center"></i>
-                  <span class="text-[10px] font-bold">Dropbox</span>
-                </a>
-
-                <a id="fileMyCase" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100">
-                  <i class="fas fa-briefcase text-slate-700 w-5 text-center"></i>
-                  <span class="text-[10px] font-bold">MyCase</span>
-                </a>
+                <a id="fileRiskAssessment" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-file-pen text-[#b39b5d] w-5 text-center"></i><span class="text-[10px] font-bold">Risk Assessment</span></a>
+                <a id="fileDriveFolder" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-folder-open text-amber-500 w-5 text-center"></i><span class="text-[10px] font-bold">Drive Folder</span></a>
+                <a id="fileDropbox" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-link text-indigo-500 w-5 text-center"></i><span class="text-[10px] font-bold">Dropbox</span></a>
+                <a id="fileMyCase" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-briefcase text-slate-700 w-5 text-center"></i><span class="text-[10px] font-bold">MyCase</span></a>
               </div>
             </div>
           </div>
 
           <div class="col-span-8">
-            <div class="glass-panel h-[600px] rounded-[2rem] flex flex-col p-8 border-t-8 border-t-[#b39b5d]">
-              <div class="flex justify-between items-center mb-6">
+            <div class="glass-panel h-[640px] rounded-[2rem] flex flex-col p-8 border-t-8 border-t-[#b39b5d]">
+              <div class="flex justify-between items-center mb-4">
                 <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Minuta de Llamada</h4>
                 <div id="saveStatus" class="text-[9px] font-bold text-slate-300 uppercase">Listo para escribir</div>
               </div>
 
-              <textarea
-                id="aiInputArea"
-                class="flex-1 bg-slate-50/50 p-6 rounded-2xl outline-none text-xl font-medium text-slate-800 placeholder-slate-300 custom-scrollbar"
-                placeholder="Escribe aquí una nueva nota. Se guardará limpia, sin marcas de fecha ni texto adicional."></textarea>
+              <textarea id="aiInputArea" class="flex-1 bg-slate-50/50 p-6 rounded-2xl outline-none text-xl font-medium text-slate-800 placeholder-slate-300 custom-scrollbar" placeholder="Escribe aquí una nueva nota. Se guardará limpia, sin marcas de fecha ni texto adicional."></textarea>
 
-              <div class="mt-4 flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                  <button
-                    id="statusToggleBtn"
-                    onclick="toggleCallbackStatus()"
-                    class="px-4 py-3 rounded-xl text-xs font-black uppercase min-w-[220px] border bg-red-50 text-red-700 border-red-200">
-                    Pendiente
+              <div class="mt-4 space-y-3">
+                <div class="flex items-center gap-3 flex-wrap">
+                  <button id="statusToggleBtn" onclick="toggleCallbackStatus()" class="px-4 py-3 rounded-xl text-xs font-black uppercase min-w-[320px] border bg-red-50 text-red-700 border-red-200">Presionar si la callback fue finalizada con éxito</button>
+                  <button id="mycaseConfirmBtn" onclick="toggleMyCaseReady()" class="px-4 py-3 rounded-xl text-xs font-black uppercase min-w-[220px] border bg-red-50 text-red-700 border-red-200">Enviar a MyCase</button>
+                </div>
+                <div id="sendBlockLegend" class="hidden text-center rounded-xl bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-[11px] font-black uppercase tracking-wide">Este texto no se puede enviar hasta que confirmes que será el que se suba a MyCase.</div>
+                <div class="flex items-center justify-end gap-4">
+                  <button id="sendRealBtn" onclick="syncToSheet()" class="bg-[#0a192f] text-white px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 shadow-xl transition-all disabled-send">
+                    ENVIAR
                   </button>
                 </div>
-
-                <button
-                  onclick="syncToSheet()"
-                  class="bg-[#0a192f] text-white px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 shadow-xl transition-all">
-                  ENVIAR
-                </button>
               </div>
 
-              <p class="mt-3 text-[9px] font-bold text-slate-300 uppercase tracking-widest text-right">
-                Se guarda únicamente el texto que escribas
-              </p>
+              <p class="mt-3 text-[9px] font-bold text-slate-300 uppercase tracking-widest text-right">Se guarda únicamente el texto que escribas</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TRACKING VIEW -->
       <div id="trackingView" class="hidden space-y-6">
         <div class="glass-panel rounded-[2rem] p-8">
           <div class="flex items-center justify-between gap-6 flex-wrap">
             <div>
               <h3 class="text-3xl font-black tracking-tight text-[#0a192f] uppercase">Seguimiento clientes</h3>
-              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-1">Solo casos de tu perfil con Post Needed = SI</p>
+              <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-1">Todos los casos de tu perfil con Post Needed = SI</p>
             </div>
-
             <div class="flex items-center gap-3 flex-wrap">
-              <select id="trackingPostStatusFilter" onchange="renderTrackingTable()"
-                class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[220px]">
-                <option value="">Todos los Post Status</option>
-              </select>
-
-              <select id="trackingWeekFilter" onchange="renderTrackingTable()"
-                class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[180px]">
-                <option value="">Todas las semanas</option>
-              </select>
+              <select id="trackingPostStatusFilter" onchange="renderTrackingTable()" class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[220px]"><option value="">Todos los Post Status</option></select>
+              <select id="trackingWeekFilter" onchange="renderTrackingTable()" class="bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-xs font-black uppercase outline-none min-w-[180px]"><option value="">Todas las semanas</option></select>
             </div>
           </div>
-
           <div class="mt-8 table-wrap custom-scrollbar">
             <table class="w-full border-separate border-spacing-y-2">
               <thead>
@@ -611,7 +384,8 @@
                   <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Días</th>
                   <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Deadline</th>
                   <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Status Solicitud</th>
-                  <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Status Final</th>
+                  <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Timeline</th>
+                  <th class="text-[11px] uppercase tracking-widest text-slate-400 font-black px-4 py-2">Cliente</th>
                 </tr>
               </thead>
               <tbody id="trackingTableBody"></tbody>
@@ -621,57 +395,111 @@
       </div>
     </main>
 
-    <!-- AI CHAT SIDEBAR -->
     <div id="aiSidebar" class="fixed right-0 top-0 h-full w-[500px] bg-white shadow-2xl transform translate-x-full transition-all duration-500 z-[150] flex flex-col">
       <div class="p-8 bg-indigo-700 text-white flex justify-between items-center">
-        <div class="flex items-center gap-4">
-          <i class="fas fa-robot text-3xl"></i>
-          <h3 class="font-black text-lg uppercase leading-none">TRACKER Assistant</h3>
-        </div>
+        <div class="flex items-center gap-4"><i class="fas fa-robot text-3xl"></i><h3 class="font-black text-lg uppercase leading-none">TRACKER Assistant</h3></div>
         <button onclick="closeAI()"><i class="fas fa-times text-xl"></i></button>
       </div>
 
       <div id="aiChat" class="flex-1 overflow-y-auto p-8 space-y-4 bg-slate-50 custom-scrollbar">
-        <div class="bg-indigo-50 p-4 rounded-2xl text-[13px] font-medium text-indigo-900 leading-relaxed">
-          Hola. Puedo contestar SOLO con base en las notas de tramcase de este cliente. ¿Qué necesitas?
-        </div>
+        <div class="bg-indigo-50 p-4 rounded-2xl text-[13px] font-medium text-indigo-900 leading-relaxed">Hola. Puedo contestar SOLO con base en las notas de tramcase de este cliente. ¿Qué necesitas?</div>
       </div>
 
       <div class="px-6 pb-4">
-        <textarea
-          id="aiContextPaste"
-          placeholder="Pega aquí el contexto/notes del cliente si AG no está disponible..."
-          class="w-full bg-slate-100 p-4 rounded-xl outline-none text-xs font-bold custom-scrollbar h-24"></textarea>
-
-        <button
-          onclick="saveAIContext()"
-          class="mt-2 w-full bg-slate-900 text-white py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800">
-          Guardar Contexto
-        </button>
+        <div id="contextCollapsedBar" class="hidden mb-2 text-[11px] font-black uppercase tracking-wide text-indigo-700 cursor-pointer" onclick="toggleContextPanel(true)">Ver contexto guardado / Agregar más contexto</div>
+        <div id="contextPanelWrap">
+          <textarea id="aiContextPaste" placeholder="Pega aquí el contexto/notes del cliente si AG no está disponible..." class="w-full bg-slate-100 p-4 rounded-xl outline-none text-xs font-bold custom-scrollbar h-24"></textarea>
+          <button onclick="saveAIContext()" class="mt-2 w-full bg-slate-900 text-white py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800">Guardar Contexto</button>
+        </div>
       </div>
 
       <div class="p-6 border-t bg-white">
         <div class="flex gap-2">
           <input id="aiQuestion" type="text" placeholder="Pregunta sobre las notas..." class="flex-1 bg-slate-100 px-6 py-4 rounded-xl outline-none font-bold text-sm">
-          <button onclick="askAI()" class="bg-indigo-600 text-white w-14 rounded-xl shadow-lg hover:bg-indigo-700">
-            <i class="fas fa-paper-plane"></i>
-          </button>
+          <button onclick="askAI()" class="bg-indigo-600 text-white w-14 rounded-xl shadow-lg hover:bg-indigo-700"><i class="fas fa-paper-plane"></i></button>
         </div>
+      </div>
+    </div>
+
+    <div id="timelineModal" class="hidden fixed inset-0 bg-black/40 z-[220] p-6">
+      <div class="w-full h-full bg-slate-50 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col">
+        <div class="bg-white border-b border-slate-200 px-8 py-6 flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl font-black text-[#0a192f] uppercase">Timeline del cliente</h3>
+            <p class="text-[11px] font-black uppercase tracking-widest text-slate-400">Historial de cambios del caso</p>
+          </div>
+          <button onclick="closeTimeline()" class="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black uppercase hover:bg-slate-200">Cerrar</button>
+        </div>
+        <div id="timelineModalBody" class="flex-1 overflow-y-auto custom-scrollbar p-8"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="centerAlert" class="hidden fixed inset-0 z-[300] flex items-center justify-center bg-black/30 p-6">
+    <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-200 px-8 py-7 max-w-xl w-full text-center">
+      <div class="w-16 h-16 mx-auto rounded-full bg-red-50 text-red-600 flex items-center justify-center text-3xl mb-4">
+        <i class="fas fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-xl font-black uppercase tracking-tight text-[#0a192f]">Acción bloqueada</h3>
+      <p id="centerAlertMessage" class="mt-3 text-sm font-bold text-slate-600 leading-relaxed">--</p>
+      <button onclick="closeCenterAlert()" class="mt-6 px-6 py-3 rounded-xl bg-[#0a192f] text-white text-xs font-black uppercase tracking-widest hover:bg-slate-800">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <div id="callbackReminderModal" class="hidden fixed inset-0 z-[320] flex items-center justify-center bg-black/40 p-6">
+    <div class="pulse-ring bg-white rounded-[2rem] shadow-2xl border border-red-200 px-8 py-8 max-w-2xl w-full text-center">
+      <div class="w-20 h-20 mx-auto rounded-full bg-red-50 text-red-600 flex items-center justify-center text-4xl mb-5">
+        <i class="fas fa-bell"></i>
+      </div>
+      <h3 class="text-2xl font-black uppercase tracking-tight text-[#0a192f]">Callback próxima</h3>
+      <p class="mt-3 text-sm font-black uppercase tracking-widest text-red-500">Faltan 15 minutos o menos</p>
+      <div class="mt-6 bg-slate-50 border border-slate-200 rounded-2xl p-6 text-left">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Cliente</div>
+            <div id="reminderClientName" class="text-lg font-black text-[#0a192f] mt-1">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">ID</div>
+            <div id="reminderClientId" class="text-lg font-black text-[#0a192f] mt-1">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Hora</div>
+            <div id="reminderClientTime" class="text-lg font-black text-[#4f46e5] mt-1">--</div>
+          </div>
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Attorney</div>
+            <div id="reminderAttorneyName" class="text-lg font-black text-[#0a192f] mt-1">--</div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Motivo</div>
+          <div id="reminderReason" class="text-sm font-bold text-slate-700 mt-1">--</div>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center gap-3">
+        <button onclick="dismissReminderModal()" class="px-6 py-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black uppercase tracking-widest hover:bg-slate-200">
+          Cerrar
+        </button>
       </div>
     </div>
   </div>
 
   <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyR47r3GM3XW7G6r9oxgp52xHZxYfg15W8-e37f8bs5Ynwq83BRE8ZXKKu0zYshXxk_Pg/exec";
-
     const attorneys = [
-    "MARIA MENDOZA",
-    "BETZAIDA SANTIAGO",
-    "DANIEL PATIÑO",
-    "JESUS MARTINEZ",
-    "AARON",
-    "FELMARIE"
-   ];
+      "AARON DICKEY",
+      "BETZAIDA SANTIAGO",
+      "DANIEL PATIÑO",
+      "EDWIN RIVERA",
+      "FELMARIE FIGUEROA",
+      "JESUS MARTINEZ",
+      "MARIA MENDOZA",
+      "YIRIANN PEREZ",
+      "JOYCE BENET"
+    ];
 
     let attorneyComparisonChart = null;
     let areaDistributionChart = null;
@@ -684,702 +512,551 @@
     let activeRowIndex = null;
     let currentClientStoredNotes = "";
     let allCases = [];
+    let latestCasesByAttorney = {};
+    let trackingCasesByAttorney = {};
     let calendarWeekOffsetDays = 0;
     let calendarMode = "today";
-    let currentView = "dashboard";
-    let executiveMetricFilter = "total"; 
+    let currentView = "welcome";
+    let executiveMetricFilter = "total";
+    let timelineCache = {};
+    let reminderInterval = null;
+    let shownReminderKeys = new Set();
 
-    // =========================
-    // PLUGIN LABELS EN GRÁFICAS
-    // =========================
     const alwaysShowChartValuesPlugin = {
       id: "alwaysShowChartValues",
       afterDatasetsDraw(chart) {
         const { ctx } = chart;
         ctx.save();
-        ctx.font = "bold 11px Inter, sans-serif";
-        ctx.fillStyle = "#0f172a";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
         const type = chart.config.type;
-
         chart.data.datasets.forEach((dataset, datasetIndex) => {
           const meta = chart.getDatasetMeta(datasetIndex);
           if (!meta || meta.hidden) return;
-
           meta.data.forEach((element, index) => {
             const raw = dataset.data[index];
             if (raw === null || raw === undefined || raw === "") return;
 
-            if (type === "bar") {
-              const x = element.x;
-              const y = element.y - 12;
-              ctx.fillText(String(raw), x, y);
-            } else if (type === "line") {
-              const x = element.x;
-              const y = element.y - 14;
-              ctx.fillText(String(raw), x, y);
-            } else if (type === "doughnut" || type === "pie") {
-              const props = element.getProps(["x", "y", "startAngle", "endAngle", "outerRadius", "innerRadius"], true);
+            let fontSize = type === 'bar' ? 13 : type === 'line' ? 12 : 12;
+            ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            if (type === 'bar' || type === 'line') {
+              ctx.fillStyle = '#0f172a';
+              ctx.fillText(String(raw), element.x, element.y - 14);
+            } else if (type === 'doughnut' || type === 'pie') {
+              const props = element.getProps(['x','y','startAngle','endAngle','outerRadius','innerRadius'], true);
               const angle = (props.startAngle + props.endAngle) / 2;
-              const radius = props.innerRadius + (props.outerRadius - props.innerRadius) * 0.65;
+              const radius = props.innerRadius + (props.outerRadius - props.innerRadius) * 0.62;
               const x = props.x + Math.cos(angle) * radius;
               const y = props.y + Math.sin(angle) * radius;
-              ctx.fillStyle = "#ffffff";
+              ctx.fillStyle = '#ffffff';
               ctx.fillText(String(raw), x, y);
-              ctx.fillStyle = "#0f172a";
             }
           });
         });
-
         ctx.restore();
       }
     };
+    if (typeof Chart !== 'undefined') Chart.register(alwaysShowChartValuesPlugin);
 
-    if (typeof Chart !== "undefined") {
-      Chart.register(alwaysShowChartValuesPlugin);
-    }
-
-    // =========================
-    // NAV / BOOT
-    // =========================
-    
-    window.showAttySelection = () => {
-  document.getElementById("welcomeScreen").classList.add("hidden");
-  document.getElementById("loginScreen").classList.remove("hidden");
-
-  const list = document.getElementById("attyList");
-  list.innerHTML = attorneys.map(n => `
-    <button onclick="enterPortal('${escapeJs_(n)}')" class="name-card w-full text-left p-6 border border-white/10 rounded-2xl font-black uppercase text-xs text-white tracking-widest shadow-xl mb-3">
-      ${escapeHtml_(n)}
-    </button>
-  `).join("");
-};
-
-function getInitials_(name){
-  return (name || "")
-    .split(" ")
-    .filter(Boolean)
-    .slice(0,2)
-    .map(x => x[0])
-    .join("")
-    .toUpperCase() || "--";
-}
-
-    window.enterPortal = async (name) => {
-      currentUser = name;
-
-      document.getElementById("loginScreen").classList.add("hidden");
-      document.getElementById("portalMain").classList.remove("hidden");
-
-      setHeaderIdentity_(name, "Attorney", getInitials_(name), false);
-
-      if (!allCases.length) {
-        await loadSheetData();
-      }
-
-      openDashboardView();
-    };
-
-    window.openFutureDashboard = async () => {
-      document.getElementById("loginScreen").classList.add("hidden");
-      document.getElementById("portalMain").classList.remove("hidden");
-
-      if (!allCases.length) {
-        await loadSheetData();
-      }
-
-      currentUser = "";
-      currentView = "executiveDashboard";
-      executiveMetricFilter = "total";
-
-      setHeaderIdentity_("Panel General", "Dashboard", "PG", true);
-
-      hideAllViews_();
-      document.getElementById("executiveDashboardView").classList.remove("hidden");
-      populateExecutiveDashboardFilters_();
-      updateHeaderForView_();
-      renderExecutiveDashboard();
-    };
-
-    function setHeaderIdentity_(name, role, initials, isGeneral){
-      document.getElementById("userNameDisplay").innerText = name || "--";
-      document.getElementById("userRoleDisplay").innerText = role || "--";
-      document.getElementById("userAvatar").innerText = initials || "--";
-
-      const trackingBtn = document.getElementById("btnTrackingView");
-      if (trackingBtn) {
-        trackingBtn.classList.toggle("hidden", !!isGeneral);
-      }
-    }
-
-    async function loadSheetData() {
-      try {
-        const res = await fetch(`${SHEET_API_URL}?action=getCases`);
-        const data = await res.json();
-
-        if (!data.ok) throw new Error(data.error || "API inválido");
-        allCases = (data.cases || []).map(mapCaseFields_);
-      } catch (e) {
-        console.error(e);
-        alert("No pude cargar datos del Sheet. Revisa Web App / permisos.");
-      }
-    }
-
-    // =========================
-    // MAPPING
-    // =========================
-    function mapCaseFields_(raw){
-      return {
-        ...raw,
-        rowIndex: raw.rowIndex || raw.row || raw.index || "",
-
-        id: raw.id || raw.colA || "",
-        name: raw.name || raw.colB || "",
-        colDescription: raw.colDescription || raw.colC || "",
-        phone: raw.phone || raw.colD || "",
-        typeCase: raw.typeCase || raw.colE || "",
-        openSince: raw.openSince || raw.colF || "",
-        isInUSCIS: raw.isInUSCIS || raw.colG || "",
-        currentStage: raw.currentStage || raw.colH || "",
-        typeCall: raw.typeCall || raw.colI || "",
-        atty: raw.atty || raw.colJ || "",
-        dateK: raw.dateK || raw.colK || "",
-        timeL: raw.timeL || raw.colL || "",
-
-        iaSummary: raw.iaSummary || raw.colM || "",
-        enhancedRiskAssessment: raw.enhancedRiskAssessment || raw.colN || "",
-        mycaseText: raw.mycaseText || raw.colO || "",
-        linkMyCase: raw.linkMyCase || raw.colP || "",
-
-        compromisoAttys: raw.compromisoAttys || raw.colQ || "",
-        colAI: raw.compromisoAttys || raw.colQ || "",
-
-        riskAssessment: raw.riskAssessment || raw.colR || "",
-        driveFolder: raw.driveFolder || raw.colS || "",
-        driveDone: raw.driveDone || raw.colT || "",
-        dbLink: raw.colU || raw.dbLink || "",
-
-        urgente: raw.urgente || raw.colV || "",
-        preNeeded: raw.preNeeded || raw.colW || "",
-        preAction: raw.preAction || raw.colX || "",
-        areaPre: raw.areaPre || raw.colY || "",
-        preStatus: raw.preStatus || raw.colZ || "",
-        updatePreCallback: raw.updatePreCallback || raw.colAA || "",
-        outcome: raw.outcome || raw.colAB || "",
-        postNeeded: raw.postNeeded || raw.colAC || "",
-        postAction: raw.postAction || raw.colAD || "",
-        areaPost: raw.areaPost || raw.colAE || "",
-        deadline: raw.deadline || raw.colAF || "",
-        postStatus: raw.postStatus || raw.colAG || "",
-        finalStatus: raw.finalStatus || raw.colAH || "",
-        lastUpdate: raw.lastUpdate || raw.colAI || "",
-        quemados: raw.quemados || raw.colAJ || "",
-        colSemana: raw.colSemana || raw.colAK || ""
-      };
-    }
-
-    // =========================
-    // HELPERS
-    // =========================
     function normalizeStr(s){
-      return (s || "").toString().trim().toUpperCase();
+      return (s || '')
+        .toString()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toUpperCase();
     }
 
-    function escapeJs_(text){
-      return String(text ?? "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-    }
-
-    function getSearchQuery_(){
-      return normalizeStr(document.getElementById("dashboardSearch")?.value);
-    }
-
-    function isYes_(v){
-      return ["SI", "SÍ", "YES", "Y"].includes(normalizeStr(v));
-    }
-
-    function isReleased_(c){
-      return !!normalizeStr(c.finalStatus);
-    }
-
-    function isUrgent_(c){
-      return isYes_(c.urgente);
-    }
-
-    function isPreEscalated_(c){
-      return isYes_(c.preNeeded);
-    }
-
-    function isPostEscalated_(c){
-      return isYes_(c.postNeeded);
-    }
-
-    function getCurrentArea_(c){
-      return c.areaPost || c.areaPre || "--";
-    }
+    function escapeJs_(text){ return String(text ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+    function escapeHtml_(text){ return String(text ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
+    function getInitials_(name){ return (name || '').split(' ').filter(Boolean).slice(0,2).map(x => x[0]).join('').toUpperCase() || '--'; }
+    function getSearchQuery_(){ return normalizeStr(document.getElementById('dashboardSearch')?.value); }
+    function isYes_(v){ return ['SI','SÍ','YES','Y'].includes(normalizeStr(v)); }
+    function isReleased_(c){ return !!normalizeStr(c.finalStatus); }
+    function isUrgent_(c){ return isYes_(c.urgente); }
+    function isPreEscalated_(c){ return isYes_(c.preNeeded); }
+    function isPostEscalated_(c){ return isYes_(c.postNeeded); }
+    function getCurrentArea_(c){ return c.areaPost || c.areaPre || '--'; }
+    function startOfDay(d){ const x = new Date(d); x.setHours(0,0,0,0); return x; }
+    function addDays(d,n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+    function mondayOfWeek(d){ const x = startOfDay(d); const day = x.getDay(); const diff = day === 0 ? -6 : 1 - day; x.setDate(x.getDate() + diff); return x; }
+    function toISO(d){ const x = new Date(d); return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`; }
+    function destroyChartSafe_(chartRef){ if (chartRef) chartRef.destroy(); return null; }
 
     function parseDateFromSheet(val){
       if (!val) return null;
-      const s = val.toString().trim();
-
+      if (Object.prototype.toString.call(val) === '[object Date]' && !isNaN(val.getTime())) return val;
+      const s = String(val).trim();
       const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
       if (iso) return new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
-
       const d1 = new Date(s);
       if (!isNaN(d1.getTime())) return d1;
-
       const parts = s.split(/[\/\-]/).map(x => x.trim());
-      if (parts.length === 3){
+      if (parts.length === 3) {
         const a = parseInt(parts[0],10), b = parseInt(parts[1],10), c = parseInt(parts[2],10);
-        const dd = (a > 12) ? a : b;
-        const mm = (a > 12) ? b : a;
+        const dd = a > 12 ? a : b;
+        const mm = a > 12 ? b : a;
         const yyyy = c < 100 ? 2000 + c : c;
         const d2 = new Date(yyyy, mm - 1, dd);
         if (!isNaN(d2.getTime())) return d2;
       }
-
       return null;
     }
 
     function parseTimeString_(timeStr){
       if (!timeStr) return null;
-      const s = String(timeStr).trim().toUpperCase();
+      let s = String(timeStr).trim().toUpperCase().replace(/\./g, ':').replace(/\s+/g, ' ').replace('A M','AM').replace('P M','PM');
 
-      let m = s.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/i);
+      let m = s.match(/^(\d{1,2})(?::(\d{1,2}))?\s*(AM|PM)$/);
       if (m) {
-        let hour = parseInt(m[1], 10);
-        const minute = parseInt(m[2] || "0", 10);
-        const ampm = m[3].toUpperCase();
-
-        if (ampm === "AM" && hour === 12) hour = 0;
-        if (ampm === "PM" && hour !== 12) hour += 12;
-
-        if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
-        return { hour, minute };
+        let h = parseInt(m[1],10);
+        const min = parseInt(m[2] || '0', 10);
+        const ampm = m[3];
+        if (ampm === 'AM' && h === 12) h = 0;
+        if (ampm === 'PM' && h !== 12) h += 12;
+        if (h >= 0 && h <= 23 && min >= 0 && min <= 59) return { hour:h, minute:min };
       }
 
-      m = s.match(/^(\d{1,2}):(\d{2})$/);
+      m = s.match(/^(\d{1,2}):(\d{1,2})$/);
       if (m) {
-        const hour = parseInt(m[1], 10);
-        const minute = parseInt(m[2], 10);
-        if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
-        return { hour, minute };
+        const h = parseInt(m[1],10), min = parseInt(m[2],10);
+        if (h >= 0 && h <= 23 && min >= 0 && min <= 59) return { hour:h, minute:min };
       }
 
+      m = s.match(/^(\d{3,4})$/);
+      if (m) {
+        const raw = m[1].padStart(4,'0');
+        const h = parseInt(raw.slice(0,2),10), min = parseInt(raw.slice(2,4),10);
+        if (h >= 0 && h <= 23 && min >= 0 && min <= 59) return { hour:h, minute:min };
+      }
       return null;
     }
 
     function formatTimeCompact(timeStr){
       const t = parseTimeString_(timeStr);
-      if (!t) return "--";
-
-      const fakeDate = new Date(2026, 0, 1, t.hour, t.minute);
-      return fakeDate.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true
-      });
+      if (!t) return '--';
+      return new Date(2026,0,1,t.hour,t.minute).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', hour12:true });
     }
 
     function shiftTime_(timeStr, deltaHours){
       const t = parseTimeString_(timeStr);
-      if (!t) return "--";
-
-      const fakeDate = new Date(2026, 0, 1, t.hour, t.minute);
-      fakeDate.setHours(fakeDate.getHours() + deltaHours);
-
-      return fakeDate.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true
-      });
+      if (!t) return '--';
+      const fake = new Date(2026,0,1,t.hour,t.minute);
+      fake.setHours(fake.getHours()+deltaHours);
+      return fake.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', hour12:true });
     }
 
-    function getDualTimeDisplay_(dateVal, timeVal){
-      const prTime = formatTimeCompact(timeVal);
-      if (prTime === "--") return { pr: "--", cdmx: "--" };
-
-      return {
-        pr: `${prTime} PR`,
-        cdmx: `${shiftTime_(timeVal, -2)} CDMX`
-      };
-    }
-
-    function startOfDay(d){
-      const x = new Date(d);
-      x.setHours(0,0,0,0);
-      return x;
-    }
-
-    function addDays(d,n){
-      const x = new Date(d);
-      x.setDate(x.getDate() + n);
-      return x;
-    }
-
-    function toISO(d){
-      const x = new Date(d);
-      const yyyy = x.getFullYear();
-      const mm = String(x.getMonth()+1).padStart(2,"0");
-      const dd = String(x.getDate()).padStart(2,"0");
-      return `${yyyy}-${mm}-${dd}`;
-    }
-
-    function mondayOfWeek(d){
-      const x = startOfDay(d);
-      const day = x.getDay();
-      const diff = (day===0) ? -6 : (1 - day);
-      x.setDate(x.getDate() + diff);
-      return x;
-    }
-
-    function formatScheduleWithZones(dateK, timeL){
-      const d = parseDateFromSheet(dateK);
-      const ds = d
-        ? d.toLocaleDateString("es-MX", { year:"numeric", month:"short", day:"2-digit" })
-        : (dateK || "--");
-
-      const times = getDualTimeDisplay_(dateK, timeL);
-      return `${ds} • ${times.pr} • ${times.cdmx}`;
+    function getDualTimeDisplay_(dateVal,timeVal){
+      const pr = formatTimeCompact(timeVal);
+      if (pr === '--') return { pr:'--', cdmx:'--' };
+      return { pr:`${pr} PR`, cdmx:`${shiftTime_(timeVal, -2)} CDMX` };
     }
 
     function formatDateOnly_(value){
       const d = parseDateFromSheet(value);
-      return d ? d.toLocaleDateString("es-MX", { year:"numeric", month:"2-digit", day:"2-digit" }) : (value || "--");
+      return d ? d.toLocaleDateString('es-MX', { year:'numeric', month:'2-digit', day:'2-digit' }) : (value || '--');
     }
 
-    function setLink(elId, urlOrText, fallback="#"){
-      const el = document.getElementById(elId);
-      if (!el) return;
-
-      const val = (urlOrText || "").toString().trim();
-      const isUrl = /^https?:\/\//i.test(val);
-
-      if (isUrl) {
-        el.href = val;
-        el.classList.remove("opacity-40","pointer-events-none");
-      } else {
-        el.href = fallback;
-        el.classList.add("opacity-40","pointer-events-none");
-      }
+    function formatDateNoHour_(value){
+      const d = parseDateFromSheet(value);
+      return d ? d.toLocaleDateString('es-MX', { year:'numeric', month:'2-digit', day:'2-digit' }) : (String(value || '').split(' ')[0] || '--');
     }
 
-    function escapeHtml_(text){
-      return String(text ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+    function formatScheduleWithZones(dateK, timeL){
+      const d = parseDateFromSheet(dateK);
+      const ds = d ? d.toLocaleDateString('es-MX', { year:'numeric', month:'short', day:'2-digit' }) : (dateK || '--');
+      const times = getDualTimeDisplay_(dateK, timeL);
+      return `${ds} • ${times.pr} • ${times.cdmx}`;
     }
 
     function getCaseTimestamp_(c){
       const d = parseDateFromSheet(c.dateK);
       if (!d) return 0;
-
       const t = parseTimeString_(c.timeL);
       if (t) d.setHours(t.hour, t.minute, 0, 0);
-      else d.setHours(0, 0, 0, 0);
-
+      else d.setHours(0,0,0,0);
       return d.getTime();
     }
 
+    function getCaseDateTime_(c){
+  const d = parseDateFromSheet(c.dateK);
+  if (!d) return null;
+
+  const t = parseTimeString_(c.timeL);
+  if (!t) return null;
+
+  const x = new Date(d);
+  x.setHours(t.hour, t.minute, 0, 0);
+
+  const attorneyName = c.atty || currentUser || '';
+  if (usesCDMXReminderTime_(attorneyName)) {
+    x.setHours(x.getHours() - 2);
+  }
+
+  return x;
+}
+
     function getUniqueLatestCases_(cases){
       const map = new Map();
-
       for (const c of cases) {
         const key = normalizeStr(c.id || c.name || `${c.rowIndex}`);
         const prev = map.get(key);
-
         if (!prev) {
           map.set(key, c);
           continue;
         }
-
-        const prevTs = getCaseTimestamp_(prev);
-        const currTs = getCaseTimestamp_(c);
-
-        if (currTs >= prevTs) {
-          map.set(key, c);
-        }
+        if (getCaseTimestamp_(c) >= getCaseTimestamp_(prev)) map.set(key, c);
       }
-
       return Array.from(map.values());
     }
 
     function getDaysToDeadline_(deadlineVal){
       const d = parseDateFromSheet(deadlineVal);
       if (!d) return null;
-      const today = startOfDay(new Date());
-      return Math.round((startOfDay(d).getTime() - today.getTime()) / 86400000);
+      return Math.round((startOfDay(d).getTime() - startOfDay(new Date()).getTime()) / 86400000);
+    }
+
+    function setLink(elId, urlOrText, fallback='#'){
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const val = (urlOrText || '').toString().trim();
+      const isUrl = /^https?:\/\//i.test(val);
+      if (isUrl) {
+        el.href = val;
+        el.classList.remove('opacity-40','pointer-events-none');
+      } else {
+        el.href = fallback;
+        el.classList.add('opacity-40','pointer-events-none');
+      }
     }
 
     function buildDaysBadge_(days){
-      if (days === null || days === undefined) return "--";
-
-      let cls = "bg-slate-100 text-slate-700 border-slate-200";
-      if (days < 0) cls = "bg-red-50 text-red-700 border-red-200";
-      else if (days <= 3) cls = "bg-orange-50 text-orange-700 border-orange-200";
-      else if (days <= 7) cls = "bg-amber-50 text-amber-700 border-amber-200";
-      else cls = "bg-emerald-50 text-emerald-700 border-emerald-200";
-
+      if (days === null || days === undefined) return '--';
+      let cls = 'bg-slate-100 text-slate-700 border-slate-200';
+      if (days < 0) cls = 'bg-red-50 text-red-700 border-red-200';
+      else if (days <= 3) cls = 'bg-orange-50 text-orange-700 border-orange-200';
+      else if (days <= 7) cls = 'bg-amber-50 text-amber-700 border-amber-200';
+      else cls = 'bg-emerald-50 text-emerald-700 border-emerald-200';
       const label = days < 0 ? `${Math.abs(days)} venc.` : `${days} días`;
       return `<span class="inline-flex px-3 py-1 rounded-xl text-[10px] font-black uppercase border ${cls}">${label}</span>`;
     }
 
     function buildStatusBadge_(text){
       const v = normalizeStr(text);
-      let cls = "bg-slate-100 text-slate-700 border-slate-200";
-
-      if (!v) cls = "bg-slate-100 text-slate-500 border-slate-200";
-      else if (["DONE","FINALIZADO","FINALIZADA","COMPLETADO","COMPLETADA","CERRADO","CLOSED","APPROVED","ENVIADO"].includes(v)) cls = "bg-emerald-50 text-emerald-700 border-emerald-200";
-      else if (["PENDING","PENDIENTE","IN PROGRESS","EN PROCESO"].includes(v)) cls = "bg-amber-50 text-amber-700 border-amber-200";
-      else if (["ESCALATED","ESCALADO","URGENT","URGENTE"].includes(v)) cls = "bg-red-50 text-red-700 border-red-200";
-      else cls = "bg-indigo-50 text-indigo-700 border-indigo-200";
-
-      return `<span class="inline-flex px-3 py-1 rounded-xl text-[10px] font-black uppercase border ${cls}">${escapeHtml_(text || "--")}</span>`;
+      let cls = 'bg-slate-100 text-slate-700 border-slate-200';
+      if (!v) cls = 'bg-slate-100 text-slate-500 border-slate-200';
+      else if (['DONE','FINALIZADO','FINALIZADA','COMPLETADO','COMPLETADA','CERRADO','CLOSED','APPROVED','ENVIADO'].includes(v)) cls = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      else if (['PENDING','PENDIENTE','IN PROGRESS','EN PROCESO'].includes(v)) cls = 'bg-amber-50 text-amber-700 border-amber-200';
+      else if (['ESCALATED','ESCALADO','URGENT','URGENTE'].includes(v)) cls = 'bg-red-50 text-red-700 border-red-200';
+      else cls = 'bg-indigo-50 text-indigo-700 border-indigo-200';
+      return `<span class="inline-flex px-3 py-1 rounded-xl text-[10px] font-black uppercase border ${cls}">${escapeHtml_(text || '--')}</span>`;
     }
 
-    function destroyChartSafe_(chartRef){
-      if (chartRef) chartRef.destroy();
-      return null;
+    function mapCaseFields_(raw){
+      return {
+        ...raw,
+        rowIndex: raw.rowIndex || raw.row || raw.index || '',
+        id: raw.id || raw.colA || '',
+        name: raw.name || raw.colB || '',
+        colDescription: raw.colDescription || raw.colC || '',
+        phone: raw.phone || raw.colD || '',
+        typeCase: raw.typeCase || raw.colE || '',
+        openSince: raw.openSince || raw.colF || '',
+        isInUSCIS: raw.isInUSCIS || raw.colG || '',
+        currentStage: raw.currentStage || raw.colH || '',
+        typeCall: raw.typeCall || raw.colI || '',
+        atty: raw.atty || raw.colJ || '',
+        dateK: raw.dateK || raw.colK || '',
+        timeL: raw.timeL || raw.colL || '',
+        iaSummary: raw.iaSummary || raw.colM || '',
+        enhancedRiskAssessment: raw.enhancedRiskAssessment || raw.colN || '',
+        mycaseText: raw.mycaseText || raw.colO || '',
+        linkMyCase: raw.linkMyCase || raw.colP || '',
+        compromisoAttys: raw.compromisoAttys || raw.colQ || '',
+        colAI: raw.compromisoAttys || raw.colQ || '',
+        riskAssessment: raw.riskAssessment || raw.colR || '',
+        driveFolder: raw.driveFolder || raw.colS || '',
+        driveDone: raw.driveDone || raw.colT || '',
+        dbLink: raw.colU || raw.dbLink || '',
+        urgente: raw.urgente || raw.colV || '',
+        preNeeded: raw.preNeeded || raw.colW || '',
+        preAction: raw.preAction || raw.colX || '',
+        areaPre: raw.areaPre || raw.colY || '',
+        preStatus: raw.preStatus || raw.colZ || '',
+        updatePreCallback: raw.updatePreCallback || raw.colAA || '',
+        outcome: raw.outcome || raw.colAB || '',
+        postNeeded: raw.postNeeded || raw.colAC || '',
+        postAction: raw.postAction || raw.colAD || '',
+        areaPost: raw.areaPost || raw.colAE || '',
+        deadline: raw.deadline || raw.colAF || '',
+        postStatus: raw.postStatus || raw.colAG || '',
+        finalStatus: raw.finalStatus || raw.colAH || '',
+        lastUpdate: raw.lastUpdate || raw.colAI || '',
+        quemados: raw.quemados || raw.colAJ || '',
+        colSemana: raw.colSemana || raw.colAK || ''
+      };
     }
 
-    // =========================
-    // STATUS LOCAL
-    // =========================
-    function statusKey_(rowIndex){
-      return `callback_status_${currentUser}_${rowIndex}`;
+    async function loadSheetData({ silent = false, force = false } = {}) {
+  try {
+    if (!force && Array.isArray(allCases) && allCases.length) {
+      return true;
     }
 
-    function getCallbackStatus_(rowIndex){
-      return localStorage.getItem(statusKey_(rowIndex)) || "pending";
+    const res = await fetch(`${SHEET_API_URL}?action=getCases`);
+    const data = await res.json();
+
+    if (!data.ok) throw new Error(data.error || 'API inválido');
+
+    allCases = (data.cases || []).map(mapCaseFields_);
+    buildFastIndexes_();
+    return true;
+  } catch (e) {
+    console.error(e);
+
+    // solo alerta si no tengo nada cargado
+    if (!silent && (!Array.isArray(allCases) || !allCases.length)) {
+      alert('No pude cargar datos del Sheet. Revisa Web App / permisos.');
     }
 
-    function setCallbackStatus_(rowIndex, status){
-      localStorage.setItem(statusKey_(rowIndex), status);
+    return false;
+  }
+}
+    async function refreshSheetData() {
+  try {
+    // feedback visual
+    const subtitle = document.getElementById('mainSubtitle');
+    if (subtitle) subtitle.textContent = 'Actualizando...';
+
+    // forzar recarga
+    const ok = await loadSheetData({ silent: true, force: true });
+
+    if (!ok) {
+      alert('Error al refrescar la información');
+      return;
     }
+
+    // volver a renderizar lo que esté activo
+    renderActiveView();
+
+    // restaurar texto
+    if (subtitle) subtitle.textContent = 'Actualizado correctamente';
+
+  } catch (err) {
+    console.error(err);
+    alert('Error al refrescar');
+  }
+}
+
+    function buildFastIndexes_(){
+      latestCasesByAttorney = {};
+      trackingCasesByAttorney = {};
+
+      const grouped = {};
+      allCases.forEach(c => {
+        const atty = normalizeStr(c.atty || '--');
+        if (!grouped[atty]) grouped[atty] = [];
+        grouped[atty].push(c);
+      });
+
+      Object.keys(grouped).forEach(atty => {
+        const latest = getUniqueLatestCases_(grouped[atty]).sort((a,b) => getCaseTimestamp_(b) - getCaseTimestamp_(a));
+        latestCasesByAttorney[atty] = latest;
+        trackingCasesByAttorney[atty] = latest.filter(c => isYes_(c.postNeeded));
+      });
+    }
+
+    function resetAppToWelcome_(){
+      currentUser = "";
+      activeClientId = null;
+      activeRowIndex = null;
+      currentClientStoredNotes = "";
+      allCases = [];
+      latestCasesByAttorney = {};
+      trackingCasesByAttorney = {};
+      calendarWeekOffsetDays = 0;
+      calendarMode = "today";
+      currentView = "welcome";
+      executiveMetricFilter = "total";
+      timelineCache = {};
+      shownReminderKeys = new Set();
+      stopReminderWatcher_();
+      hideAllViews_();
+      document.getElementById('portalMain').classList.add('hidden');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+      document.getElementById('callbackReminderModal').classList.add('hidden');
+      document.getElementById('aiSidebar').classList.add('translate-x-full');
+      document.getElementById('timelineModal').classList.add('hidden');
+      document.getElementById('centerAlert').classList.add('hidden');
+    }
+
+    function statusKey_(rowIndex){ return `callback_status_${currentUser}_${rowIndex}`; }
+    function mycaseKey_(rowIndex){ return `mycase_ready_${currentUser}_${rowIndex}`; }
+    function getCallbackStatus_(rowIndex){ return localStorage.getItem(statusKey_(rowIndex)) || 'pending'; }
+    function setCallbackStatus_(rowIndex, status){ localStorage.setItem(statusKey_(rowIndex), status); }
+    function getMycaseReady_(rowIndex){ return localStorage.getItem(mycaseKey_(rowIndex)) || 'blocked'; }
+    function setMycaseReady_(rowIndex, status){ localStorage.setItem(mycaseKey_(rowIndex), status); }
+
+    function sendAttemptKey_(rowIndex){ return `send_attempt_${currentUser}_${rowIndex}`; }
+    function getSendAttempt_(rowIndex){ return sessionStorage.getItem(sendAttemptKey_(rowIndex)) || 'no'; }
+    function setSendAttempt_(rowIndex, status){ sessionStorage.setItem(sendAttemptKey_(rowIndex), status); }
+    function clearSendAttempt_(rowIndex){ sessionStorage.removeItem(sendAttemptKey_(rowIndex)); }
 
     function getStatusMeta_(status){
-      switch(status){
-        case "finalized":
-          return {
-            label: "Callback finalizada",
-            btn: "bg-emerald-50 text-emerald-700 border-emerald-200",
-            badge: "bg-emerald-50 text-emerald-700 border-emerald-200"
-          };
-        default:
-          return {
-            label: "Pendiente",
-            btn: "bg-red-50 text-red-700 border-red-200",
-            badge: "bg-red-50 text-red-700 border-red-200"
-          };
+      if (status === 'finalized') {
+        return { label:'Callback finalizada', btn:'bg-emerald-50 text-emerald-700 border-emerald-200', badge:'bg-emerald-50 text-emerald-700 border-emerald-200' };
       }
+      return { label:'Presionar si la callback fue finalizada con éxito', btn:'bg-red-50 text-red-700 border-red-200', badge:'bg-red-50 text-red-700 border-red-200' };
     }
 
-    window.toggleCallbackStatus = () => {
-      if (!activeRowIndex) return;
-
-      const current = getCallbackStatus_(activeRowIndex);
-      const next = current === "pending" ? "finalized" : "pending";
-
-      setCallbackStatus_(activeRowIndex, next);
-      renderClientStatus_();
-
-      if (currentView === "dashboard") renderDashboard();
-    };
+    function getMycaseMeta_(status){
+      if (status === 'ready') {
+        return { label:'Enviar a MyCase', btn:'bg-emerald-50 text-emerald-700 border-emerald-200' };
+      }
+      return { label:'Enviar a MyCase', btn:'bg-red-50 text-red-700 border-red-200' };
+    }
 
     function renderClientStatus_(){
       if (!activeRowIndex) return;
 
-      const status = getCallbackStatus_(activeRowIndex);
-      const meta = getStatusMeta_(status);
+      const cbStatus = getCallbackStatus_(activeRowIndex);
+      const cbMeta = getStatusMeta_(cbStatus);
+      const mcStatus = getMycaseReady_(activeRowIndex);
+      const mcMeta = getMycaseMeta_(mcStatus);
+      const canSend = cbStatus === 'finalized' && mcStatus === 'ready';
+      const attempted = getSendAttempt_(activeRowIndex) === 'yes';
 
-      const btn = document.getElementById("statusToggleBtn");
-      if (!btn) return;
+      const cbBtn = document.getElementById('statusToggleBtn');
+      const mcBtn = document.getElementById('mycaseConfirmBtn');
+      const sendBtn = document.getElementById('sendRealBtn');
+      const legend = document.getElementById('sendBlockLegend');
 
-      btn.textContent = meta.label;
-      btn.className = `px-4 py-3 rounded-xl text-xs font-black uppercase min-w-[220px] border ${meta.btn}`;
-    }
-
-    // =========================
-    // CASE COLLECTIONS
-    // =========================
-    function getMyCases_(){
-      const query = getSearchQuery_();
-      let cases = allCases.filter(c => normalizeStr(c.atty) === normalizeStr(currentUser));
-
-      if (query) {
-        cases = cases.filter(c => {
-          return [
-            c.id,
-            c.name,
-            c.colDescription,
-            c.typeCase,
-            c.currentStage,
-            c.typeCall,
-            c.phone,
-            c.updatePreCallback,
-            c.postAction,
-            c.postStatus,
-            c.finalStatus,
-            c.compromisoAttys
-          ].some(v => normalizeStr(v).includes(query));
-        });
+      if (cbBtn) {
+        cbBtn.textContent = cbMeta.label;
+        cbBtn.className = `px-4 py-3 rounded-xl text-xs font-black uppercase min-w-[320px] border ${cbMeta.btn}`;
       }
 
-      cases = getUniqueLatestCases_(cases);
-      cases.sort((a, b) => getCaseTimestamp_(b) - getCaseTimestamp_(a));
+      if (mcBtn) {
+        mcBtn.textContent = mcMeta.label;
+        mcBtn.className = `px-4 py-3 rounded-xl text-xs font-black uppercase min-w-[220px] border ${mcMeta.btn}`;
+      }
+
+      if (sendBtn) sendBtn.classList.toggle('disabled-send', !canSend);
+      if (legend) legend.classList.toggle('hidden', !(attempted && !canSend));
+    }
+
+    window.showCenterAlert = (message) => {
+      const modal = document.getElementById('centerAlert');
+      const msg = document.getElementById('centerAlertMessage');
+      if (msg) msg.textContent = message || 'Hay información pendiente.';
+      if (modal) modal.classList.remove('hidden');
+    };
+
+    window.closeCenterAlert = () => {
+      document.getElementById('centerAlert')?.classList.add('hidden');
+    };
+
+    window.toggleCallbackStatus = () => {
+      if (!activeRowIndex) return;
+      const current = getCallbackStatus_(activeRowIndex);
+      setCallbackStatus_(activeRowIndex, current === 'pending' ? 'finalized' : 'pending');
+
+      const cbStatus = getCallbackStatus_(activeRowIndex);
+      const mcStatus = getMycaseReady_(activeRowIndex);
+      if (cbStatus === 'finalized' && mcStatus === 'ready') clearSendAttempt_(activeRowIndex);
+
+      renderClientStatus_();
+      if (currentView === 'dashboard') renderDashboard();
+    };
+
+    window.toggleMyCaseReady = () => {
+      if (!activeRowIndex) return;
+      const current = getMycaseReady_(activeRowIndex);
+      setMycaseReady_(activeRowIndex, current === 'blocked' ? 'ready' : 'blocked');
+
+      const cbStatus = getCallbackStatus_(activeRowIndex);
+      const mcStatus = getMycaseReady_(activeRowIndex);
+      if (cbStatus === 'finalized' && mcStatus === 'ready') clearSendAttempt_(activeRowIndex);
+
+      renderClientStatus_();
+    };
+
+    function getMyCases_(){
+      const query = getSearchQuery_();
+      let cases = latestCasesByAttorney[normalizeStr(currentUser)] || [];
+      if (query) {
+        cases = cases.filter(c =>
+          [c.id,c.name,c.colDescription,c.typeCase,c.currentStage,c.typeCall,c.phone,c.updatePreCallback,c.postAction,c.postStatus,c.finalStatus,c.compromisoAttys]
+            .some(v => normalizeStr(v).includes(query))
+        );
+      }
       return cases;
     }
 
     function getTrackingCases_(){
       const query = getSearchQuery_();
-
-      let cases = allCases.filter(c => {
-        const postNeeded = normalizeStr(c.postNeeded);
-        const isMine = normalizeStr(c.atty) === normalizeStr(currentUser);
-        return ["SI", "SÍ", "YES", "Y"].includes(postNeeded) && isMine;
-      });
-
+      let cases = trackingCasesByAttorney[normalizeStr(currentUser)] || [];
       if (query) {
-        cases = cases.filter(c => {
-          return [
-            c.id,
-            c.name,
-            c.areaPost,
-            c.areaPre,
-            c.postAction,
-            c.preAction,
-            c.postStatus,
-            c.finalStatus,
-            c.colSemana,
-            c.deadline,
-            c.dateK
-          ].some(v => normalizeStr(v).includes(query));
-        });
+        cases = cases.filter(c =>
+          [c.id,c.name,c.areaPost,c.areaPre,c.postAction,c.preAction,c.postStatus,c.finalStatus,c.colSemana,c.deadline,c.dateK]
+            .some(v => normalizeStr(v).includes(query))
+        );
       }
-
-      cases = getUniqueLatestCases_(cases);
-      cases.sort((a,b) => {
-        const da = parseDateFromSheet(a.deadline) || new Date(8640000000000000);
-        const db = parseDateFromSheet(b.deadline) || new Date(8640000000000000);
-        return da - db;
-      });
-
       return cases;
     }
 
     function getDashboardFilteredCases_(){
-      let cases = [...allCases];
+      let cases = getUniqueLatestCases_(allCases);
+      const atty = normalizeStr(document.getElementById('dashFilterAttorney')?.value);
+      const area = normalizeStr(document.getElementById('dashFilterArea')?.value);
+      const week = normalizeStr(document.getElementById('dashFilterWeek')?.value);
 
-      const atty = normalizeStr(document.getElementById("dashFilterAttorney")?.value);
-      const area = normalizeStr(document.getElementById("dashFilterArea")?.value);
-      const week = normalizeStr(document.getElementById("dashFilterWeek")?.value);
+      if (atty) cases = cases.filter(c => normalizeStr(c.atty) === atty);
+      if (area) cases = cases.filter(c => normalizeStr(c.areaPre) === area || normalizeStr(c.areaPost) === area);
+      if (week) cases = cases.filter(c => normalizeStr(c.colSemana) === week);
 
-      if (atty) {
-        cases = cases.filter(c => normalizeStr(c.atty) === atty);
-      }
-
-      if (area) {
-        cases = cases.filter(c =>
-          normalizeStr(c.areaPre) === area || normalizeStr(c.areaPost) === area
-        );
-      }
-
-      if (week) {
-        cases = cases.filter(c => normalizeStr(c.colSemana) === week);
-      }
-
-      cases = getUniqueLatestCases_(cases);
-      cases.sort((a,b) => getCaseTimestamp_(b) - getCaseTimestamp_(a));
-      return cases;
+      return cases.sort((a,b) => getCaseTimestamp_(b) - getCaseTimestamp_(a));
     }
 
     function applyExecutiveMetricFilter_(cases){
       switch (executiveMetricFilter) {
-        case "urgent":
-          return cases.filter(isUrgent_);
-        case "pre":
-          return cases.filter(isPreEscalated_);
-        case "post":
-          return cases.filter(isPostEscalated_);
-        case "released":
-          return cases.filter(isReleased_);
-        case "overdue":
-          return cases.filter(c => {
-            const days = getDaysToDeadline_(c.deadline);
-            return days !== null && days < 0;
-          });
-        case "total":
-        default:
-          return cases;
+        case 'urgent': return cases.filter(isUrgent_);
+        case 'pre': return cases.filter(isPreEscalated_);
+        case 'post': return cases.filter(isPostEscalated_);
+        case 'released': return cases.filter(isReleased_);
+        case 'overdue': return cases.filter(c => { const days = getDaysToDeadline_(c.deadline); return days !== null && days < 0; });
+        default: return cases;
       }
     }
 
     function getExecutiveMetricFilterLabel_(){
       switch (executiveMetricFilter) {
-        case "urgent": return "Urgentes";
-        case "pre": return "Escalados Pre-Callbacks";
-        case "post": return "Escalados Post-Callbacks";
-        case "released": return "Liberados";
-        case "overdue": return "Vencidos";
-        default: return "Todos";
+        case 'urgent': return 'Urgentes';
+        case 'pre': return 'Escalados Pre-Callbacks';
+        case 'post': return 'Escalados Post-Callbacks';
+        case 'released': return 'Liberados';
+        case 'overdue': return 'Vencidos';
+        default: return 'Todos';
       }
     }
 
-    window.setExecutiveMetricFilter = (metric) => {
-      executiveMetricFilter = executiveMetricFilter === metric ? "total" : metric;
-      renderExecutiveDashboard();
-    };
-
-    window.clearExecutiveMetricFilter = () => {
-      executiveMetricFilter = "total";
-      renderExecutiveDashboard();
-    };
-
-    function paintExecutiveMetricCards_(){
-      const map = {
-        total: "cardMetricTotal",
-        urgent: "cardMetricUrgent",
-        pre: "cardMetricPre",
-        post: "cardMetricPost",
-        released: "cardMetricReleased",
-        overdue: "cardMetricOverdue"
-      };
-
-      Object.entries(map).forEach(([key, id]) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.classList.toggle("active", executiveMetricFilter === key);
-      });
-
-      const label = document.getElementById("dashActiveFilterLabel");
-      if (label) {
-        label.innerHTML = `<i class="fas fa-filter"></i><span>Filtro activo: ${escapeHtml_(getExecutiveMetricFilterLabel_())}</span>`;
-      }
-    }
-
-    // =========================
-    // DASHBOARD ATTORNEY
-    // =========================
     function renderMetricCards_(cases){
       const today = startOfDay(new Date());
-      const uniqueCases = getUniqueLatestCases_(cases);
 
-      const todayCases = uniqueCases.filter(c => {
+      const todayCases = cases.filter(c => {
         const d = parseDateFromSheet(c.dateK);
         return d && startOfDay(d).getTime() === today.getTime();
       });
 
-      const pendingToday = todayCases.filter(c => getCallbackStatus_(c.rowIndex) === "pending").length;
-      const doneCount = uniqueCases.filter(c => getCallbackStatus_(c.rowIndex) === "finalized").length;
+      const totalHistoric = cases.length;
+      const completedHistoric = cases.filter(c => getCallbackStatus_(c.rowIndex) === 'finalized').length;
+      const pendingToday = todayCases.filter(c => getCallbackStatus_(c.rowIndex) !== 'finalized').length;
 
-      document.getElementById("metricTotal").innerText = uniqueCases.length;
-      document.getElementById("metricPendingToday").innerText = pendingToday;
-      document.getElementById("metricDone").innerText = doneCount;
-      document.getElementById("metricToday").innerText = todayCases.length;
+      document.getElementById('metricTotal').innerText = totalHistoric;
+      document.getElementById('metricDoneHistoric').innerText = completedHistoric;
+      document.getElementById('metricPendingToday').innerText = pendingToday;
     }
 
     function renderMiniMonthCalendar_(cases){
@@ -1387,125 +1064,97 @@ function getInitials_(name){
       const monthStart = new Date(baseDay.getFullYear(), baseDay.getMonth(), 1);
       const monthEnd = new Date(baseDay.getFullYear(), baseDay.getMonth()+1, 0);
 
-      document.getElementById("miniCalendarMonth").textContent =
-        monthStart.toLocaleDateString("es-MX", { month:"short" }).toUpperCase().replace(".","");
-      document.getElementById("miniCalendarYear").textContent = monthStart.getFullYear();
+      document.getElementById('miniCalendarMonth').textContent = monthStart.toLocaleDateString('es-MX', { month:'short' }).toUpperCase().replace('.', '');
+      document.getElementById('miniCalendarYear').textContent = monthStart.getFullYear();
 
-      const grid = document.getElementById("miniMonthGrid");
+      const grid = document.getElementById('miniMonthGrid');
       const firstWeekday = monthStart.getDay();
       const totalDays = monthEnd.getDate();
       const selectedIso = toISO(baseDay);
 
       const eventsByDay = new Set(
-        getUniqueLatestCases_(cases)
-          .map(c => parseDateFromSheet(c.dateK))
+        cases.map(c => parseDateFromSheet(c.dateK))
           .filter(Boolean)
           .filter(d => d.getMonth() === monthStart.getMonth() && d.getFullYear() === monthStart.getFullYear())
           .map(d => toISO(startOfDay(d)))
       );
 
-      let html = "";
-      for (let i=0; i<firstWeekday; i++) html += `<div></div>`;
+      let html = '';
+      for (let i=0;i<firstWeekday;i++) html += '<div></div>';
 
-      for (let day=1; day<=totalDays; day++){
+      for (let day=1; day<=totalDays; day++) {
         const d = new Date(monthStart.getFullYear(), monthStart.getMonth(), day);
         const iso = toISO(d);
         const isSelected = iso === selectedIso;
         const hasEvents = eventsByDay.has(iso);
-
-        html += `
-          <button
-            onclick="selectDashboardDate('${iso}')"
-            class="mini-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-[#0a192f] hover:bg-slate-100'}">
-            ${day}
-          </button>
-        `;
+        html += `<button data-iso="${iso}" class="mini-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-[#0a192f] hover:bg-slate-100'}">${day}</button>`;
       }
 
       grid.innerHTML = html;
+      grid.querySelectorAll('[data-iso]').forEach(btn => {
+        btn.onclick = () => {
+          const iso = btn.dataset.iso;
+          const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+          if (!m) return;
+          const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+          calendarWeekOffsetDays = Math.round((startOfDay(d).getTime() - startOfDay(new Date()).getTime()) / 86400000);
+          calendarMode = 'today';
+          renderDashboard();
+        };
+      });
     }
 
-    window.selectDashboardDate = (iso) => {
-      const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      if (!m) return;
-
-      const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-      const today = startOfDay(new Date());
-      const diff = Math.round((startOfDay(d).getTime() - today.getTime()) / 86400000);
-
-      calendarWeekOffsetDays = diff;
-      calendarMode = "today";
-      renderDashboard();
-    };
-
     function renderFollowupCards_(cases){
-      const wrap = document.getElementById("followupCards");
-      const label = document.getElementById("followupLabel");
-      if (!wrap || !label) return;
-
+      const wrap = document.getElementById('followupCards');
+      const label = document.getElementById('followupLabel');
       const query = getSearchQuery_();
       const today = startOfDay(new Date());
       const baseDay = addDays(today, calendarWeekOffsetDays);
       const ws = mondayOfWeek(baseDay);
       const we = addDays(ws, 6);
 
-      let items = getUniqueLatestCases_(cases)
-        .map(c => ({ ...c, _d: parseDateFromSheet(c.dateK) }))
-        .filter(c => !!c._d);
+      let items = cases.map(c => ({ ...c, _d: parseDateFromSheet(c.dateK) })).filter(c => !!c._d);
 
-      if (query) {
-        label.textContent = `Resultados de búsqueda • ${items.length}`;
-      } else if (calendarMode === "today") {
+      if (query) label.textContent = `Resultados de búsqueda • ${items.length}`;
+      else if (calendarMode === 'today') {
         items = items.filter(c => toISO(startOfDay(c._d)) === toISO(baseDay));
-        label.textContent = `Selección del día • ${baseDay.toLocaleDateString("es-MX", { day:"2-digit", month:"long", year:"numeric" }).toUpperCase()}`;
+        label.textContent = `Selección del día • ${baseDay.toLocaleDateString('es-MX', { day:'2-digit', month:'long', year:'numeric' }).toUpperCase()}`;
       } else {
-        items = items.filter(c => {
-          const x = startOfDay(c._d);
-          return x >= ws && x <= we;
-        });
-        label.textContent = `Semana • ${ws.toLocaleDateString("es-MX")} – ${we.toLocaleDateString("es-MX")}`;
+        items = items.filter(c => { const x = startOfDay(c._d); return x >= ws && x <= we; });
+        label.textContent = `Semana • ${ws.toLocaleDateString('es-MX')} – ${we.toLocaleDateString('es-MX')}`;
       }
 
-      items.sort((a, b) => getCaseTimestamp_(b) - getCaseTimestamp_(a));
+      items.sort((a,b) => getCaseTimestamp_(b) - getCaseTimestamp_(a));
 
-      if (!items.length){
-        wrap.className = "grid grid-cols-1 gap-4";
-        wrap.innerHTML = `
-          <div class="rounded-[2rem] border border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center">
-            <div class="text-2xl font-black uppercase tracking-tight text-indigo-400">No hay callbacks en este rango</div>
-          </div>
-        `;
+      if (!items.length) {
+        wrap.className = 'grid grid-cols-1 gap-4';
+        wrap.innerHTML = '<div class="rounded-[2rem] border border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center"><div class="text-2xl font-black uppercase tracking-tight text-indigo-400">No hay callbacks en este día</div></div>';
         return;
       }
 
-      wrap.className = "grid grid-cols-2 gap-4";
+      wrap.className = 'grid grid-cols-2 gap-4';
       wrap.innerHTML = items.map(c => {
         const status = getCallbackStatus_(c.rowIndex);
         const meta = getStatusMeta_(status);
         const dualTimes = getDualTimeDisplay_(c.dateK, c.timeL);
 
-        return `
-          <button onclick="selectClientByRow(${Number(c.rowIndex)})" class="event-card w-full text-left bg-white border border-slate-200 rounded-[1.6rem] p-5">
-            <div class="flex items-start justify-between gap-4">
-              <div class="min-w-0">
-                <div class="text-lg font-black uppercase text-[#0a192f] truncate">${escapeHtml_(c.name || "--")}</div>
-                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">ID: ${escapeHtml_(c.id || "--")}</div>
-                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">
-                  ${parseDateFromSheet(c.dateK)?.toLocaleDateString("es-MX",{ day:"2-digit", month:"short", year:"numeric" }).toUpperCase() || "--"}
-                </div>
-              </div>
-
-              <div class="shrink-0 text-right flex flex-col items-end">
-                <div class="text-sm font-black text-[#4f46e5] leading-none">${dualTimes.pr}</div>
-                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2 leading-none">${dualTimes.cdmx}</div>
-                <div class="mt-4 px-3 py-1 rounded-xl text-[10px] font-black uppercase border ${meta.badge}">
-                  ${meta.label}
-                </div>
+        return `<button onclick="selectClientByRow(${Number(c.rowIndex)})" class="event-card w-full text-left bg-white border border-slate-200 rounded-[1.6rem] p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <div class="text-lg font-black uppercase text-[#0a192f] truncate">${escapeHtml_(c.name || '--')}</div>
+              <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">ID: ${escapeHtml_(c.id || '--')}</div>
+              <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">${parseDateFromSheet(c.dateK)?.toLocaleDateString('es-MX',{ day:'2-digit', month:'short', year:'numeric'}).toUpperCase() || '--'}</div>
+            </div>
+            <div class="shrink-0 text-right flex flex-col items-end">
+              <div class="text-sm font-black text-[#4f46e5] leading-none">${dualTimes.pr}</div>
+              <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2 leading-none">${dualTimes.cdmx}</div>
+              <div class="mt-4 px-3 py-1 rounded-xl text-[10px] font-black uppercase border ${meta.badge}">
+                ${meta.label === 'Callback finalizada' ? 'Callback finalizada' : 'Pendiente'}
               </div>
             </div>
-          </button>
-        `;
-      }).join("");
+          </div>
+        </button>`;
+      }).join('');
     }
 
     function renderDashboard(){
@@ -1516,408 +1165,221 @@ function getInitials_(name){
       updateCalendarModeUI_();
     }
 
-    // =========================
-    // DASH GENERAL
-    // =========================
     function populateExecutiveDashboardFilters_(){
-      const attySelect = document.getElementById("dashFilterAttorney");
-      const areaSelect = document.getElementById("dashFilterArea");
-      const weekSelect = document.getElementById("dashFilterWeek");
+      const attySelect = document.getElementById('dashFilterAttorney');
+      const areaSelect = document.getElementById('dashFilterArea');
+      const weekSelect = document.getElementById('dashFilterWeek');
 
-      if (!attySelect || !areaSelect || !weekSelect) return;
+      const attorneysUnique = [...new Set(allCases.map(c => (c.atty || '').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+      const areasUnique = [...new Set(allCases.flatMap(c => [c.areaPre, c.areaPost]).map(v => (v || '').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+      const weeksUnique = [...new Set(allCases.map(c => (c.colSemana || '').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
 
-      const attorneysUnique = [...new Set(allCases.map(c => (c.atty || "").trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "es"));
-      const areasUnique = [...new Set(allCases.flatMap(c => [c.areaPre, c.areaPost]).map(v => (v || "").trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "es"));
-      const weeksUnique = [...new Set(allCases.map(c => (c.colSemana || "").trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "es"));
+      const fill = (el, ph, list) => {
+        const curr = el.value;
+        el.innerHTML = `<option value="">${ph}</option>` + list.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join('');
+        if (list.includes(curr)) el.value = curr;
+      };
 
-      const currentAtty = attySelect.value;
-      const currentArea = areaSelect.value;
-      const currentWeek = weekSelect.value;
-
-      attySelect.innerHTML =
-        `<option value="">Todos los attorneys</option>` +
-        attorneysUnique.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join("");
-
-      areaSelect.innerHTML =
-        `<option value="">Todas las áreas</option>` +
-        areasUnique.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join("");
-
-      weekSelect.innerHTML =
-        `<option value="">Todas las semanas</option>` +
-        weeksUnique.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join("");
-
-      attySelect.value = attorneysUnique.includes(currentAtty) ? currentAtty : "";
-      areaSelect.value = areasUnique.includes(currentArea) ? currentArea : "";
-      weekSelect.value = weeksUnique.includes(currentWeek) ? currentWeek : "";
+      fill(attySelect, 'Todos los attorneys', attorneysUnique);
+      fill(areaSelect, 'Todas las áreas', areasUnique);
+      fill(weekSelect, 'Todas las semanas', weeksUnique);
     }
 
     function renderExecutiveDashboardKPIs_(cases){
-      const overdue = cases.filter(c => {
-        const days = getDaysToDeadline_(c.deadline);
-        return days !== null && days < 0;
-      }).length;
+      const overdue = cases.filter(c => { const days = getDaysToDeadline_(c.deadline); return days !== null && days < 0; }).length;
+      document.getElementById('dashMetricTotal').innerText = cases.length;
+      document.getElementById('dashMetricUrgent').innerText = cases.filter(isUrgent_).length;
+      document.getElementById('dashMetricPre').innerText = cases.filter(isPreEscalated_).length;
+      document.getElementById('dashMetricPost').innerText = cases.filter(isPostEscalated_).length;
+      document.getElementById('dashMetricReleased').innerText = cases.filter(isReleased_).length;
+      document.getElementById('dashMetricOverdue').innerText = overdue;
+    }
 
-      document.getElementById("dashMetricTotal").innerText = cases.length;
-      document.getElementById("dashMetricUrgent").innerText = cases.filter(isUrgent_).length;
-      document.getElementById("dashMetricPre").innerText = cases.filter(isPreEscalated_).length;
-      document.getElementById("dashMetricPost").innerText = cases.filter(isPostEscalated_).length;
-      document.getElementById("dashMetricReleased").innerText = cases.filter(isReleased_).length;
-      document.getElementById("dashMetricOverdue").innerText = overdue;
+    function paintExecutiveMetricCards_(){
+      const map = { total:'cardMetricTotal', urgent:'cardMetricUrgent', pre:'cardMetricPre', post:'cardMetricPost', released:'cardMetricReleased', overdue:'cardMetricOverdue' };
+      Object.entries(map).forEach(([key,id]) => document.getElementById(id)?.classList.toggle('active', executiveMetricFilter === key));
+      const label = document.getElementById('dashActiveFilterLabel');
+      if (label) label.innerHTML = `<i class="fas fa-filter"></i><span>Filtro activo: ${escapeHtml_(getExecutiveMetricFilterLabel_())}</span>`;
     }
 
     function buildAttorneyComparisonData_(cases){
       const grouped = {};
-
       cases.forEach(c => {
-        const atty = (c.atty || "--").trim() || "--";
-
-        if (!grouped[atty]) {
-          grouped[atty] = {
-            total: 0,
-            escalados: 0,
-            urgentes: 0,
-            liberados: 0
-          };
-        }
-
+        const atty = (c.atty || '--').trim() || '--';
+        if (!grouped[atty]) grouped[atty] = { total:0, escalados:0, urgentes:0, liberados:0 };
         grouped[atty].total += 1;
         if (isPostEscalated_(c)) grouped[atty].escalados += 1;
         if (isUrgent_(c)) grouped[atty].urgentes += 1;
         if (isReleased_(c)) grouped[atty].liberados += 1;
       });
-
       const labels = Object.keys(grouped);
-
-      return {
-        labels,
-        total: labels.map(a => grouped[a].total),
-        escalados: labels.map(a => grouped[a].escalados),
-        urgentes: labels.map(a => grouped[a].urgentes),
-        liberados: labels.map(a => grouped[a].liberados)
-      };
+      return { labels, total: labels.map(a => grouped[a].total), escalados: labels.map(a => grouped[a].escalados), urgentes: labels.map(a => grouped[a].urgentes), liberados: labels.map(a => grouped[a].liberados) };
     }
 
     function renderAttorneyComparisonChart_(cases){
-      const canvas = document.getElementById("attorneyComparisonChart");
-      if (!canvas || typeof Chart === "undefined") return;
-
+      const canvas = document.getElementById('attorneyComparisonChart');
+      if (!canvas) return;
       const data = buildAttorneyComparisonData_(cases);
       attorneyComparisonChart = destroyChartSafe_(attorneyComparisonChart);
-
       attorneyComparisonChart = new Chart(canvas, {
-        type: "bar",
-        data: {
-          labels: data.labels,
-          datasets: [
-            { label: "Total", data: data.total, backgroundColor: "#4285F4", borderRadius: 6 },
-            { label: "Escalados Post-Callbacks", data: data.escalados, backgroundColor: "#EA4335", borderRadius: 6 },
-            { label: "Urgentes", data: data.urgentes, backgroundColor: "#FBBC05", borderRadius: 6 },
-            { label: "Liberados", data: data.liberados, backgroundColor: "#34A853", borderRadius: 6 }
+        type:'bar',
+        data:{
+          labels:data.labels,
+          datasets:[
+            { label:'Total', data:data.total, backgroundColor:'#4f46e5', borderRadius:8 },
+            { label:'Escalados', data:data.escalados, backgroundColor:'#ef4444', borderRadius:8 },
+            { label:'Urgentes', data:data.urgentes, backgroundColor:'#f59e0b', borderRadius:8 },
+            { label:'Liberados', data:data.liberados, backgroundColor:'#10b981', borderRadius:8 }
           ]
         },
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "top",
-              labels: {
-                usePointStyle: true,
-                boxWidth: 10,
-                padding: 20,
-                font: { weight: "bold" }
-              }
-            }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: { font: { weight: "bold" } }
-            },
-            y: {
-              beginAtZero: true,
-              ticks: { precision: 0, stepSize: 1 },
-              grid: { color: "rgba(148,163,184,0.25)" }
-            }
+        options:{
+          maintainAspectRatio:false,
+          responsive:true,
+          plugins:{ legend:{ position:'top', labels:{ usePointStyle:true, boxWidth:10, padding:18, font:{ weight:'bold', size:12 } } } },
+          scales:{
+            x:{ grid:{ display:false }, ticks:{ font:{ weight:'bold', size:12 } } },
+            y:{ beginAtZero:true, ticks:{ precision:0, stepSize:1, font:{ size:12 } }, grid:{ color:'rgba(148,163,184,0.25)' } }
           }
         }
       });
     }
 
     function renderAreaDistributionChart_(cases){
-      const canvas = document.getElementById("areaDistributionChart");
-      if (!canvas || typeof Chart === "undefined") return;
-
+      const canvas = document.getElementById('areaDistributionChart');
+      if (!canvas) return;
       const areaCounts = {};
       cases.forEach(c => {
-        const areaPre = (c.areaPre || "").trim();
-        const areaPost = (c.areaPost || "").trim();
-        if (areaPre) areaCounts[areaPre] = (areaCounts[areaPre] || 0) + 1;
-        if (areaPost) areaCounts[areaPost] = (areaCounts[areaPost] || 0) + 1;
+        const a1 = (c.areaPre || '').trim();
+        const a2 = (c.areaPost || '').trim();
+        if (a1) areaCounts[a1] = (areaCounts[a1] || 0) + 1;
+        if (a2) areaCounts[a2] = (areaCounts[a2] || 0) + 1;
       });
-
       const labels = Object.keys(areaCounts);
       const values = labels.map(l => areaCounts[l]);
       areaDistributionChart = destroyChartSafe_(areaDistributionChart);
-
       areaDistributionChart = new Chart(canvas, {
-        type: "doughnut",
-        data: {
-          labels,
-          datasets: [{
-            data: values,
-            backgroundColor: [
-              "#1D4ED8", "#EA580C", "#7C3AED", "#059669", "#DC2626",
-              "#0891B2", "#CA8A04", "#4338CA", "#BE123C", "#0F766E"
-            ]
-          }]
-        },
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: {
-                usePointStyle: true,
-                boxWidth: 10,
-                padding: 16,
-                font: { weight: "bold" }
-              }
-            }
-          }
-        }
+        type:'doughnut',
+        data:{ labels, datasets:[{ data:values, backgroundColor:['#4f46e5','#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6','#14b8a6','#f97316','#e11d48','#475569'] }] },
+        options:{ maintainAspectRatio:false, responsive:true, plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, boxWidth:10, padding:16, font:{ weight:'bold', size:12 } } } } }
       });
     }
 
     function renderPipelineSummary_(cases){
-      const wrap = document.getElementById("pipelineSummaryWrap");
+      const wrap = document.getElementById('pipelineSummaryWrap');
       if (!wrap) return;
-
-      const pre = cases.filter(isPreEscalated_).length;
-      const post = cases.filter(isPostEscalated_).length;
-      const final = cases.filter(isReleased_).length;
-
-      const items = [
-        { label: "Pre-Callbacks", value: pre, cls: "bg-sky-500" },
-        { label: "Post-Callbacks", value: post, cls: "bg-red-500" },
-        { label: "Liberados", value: final, cls: "bg-emerald-500" }
+      const steps = [
+        { label:'Pre-Callbacks', value: cases.filter(isPreEscalated_).length, color:'bg-sky-500', width:'100%' },
+        { label:'Post-Callbacks', value: cases.filter(isPostEscalated_).length, color:'bg-red-500', width:'86%' },
+        { label:'Liberados', value: cases.filter(isReleased_).length, color:'bg-emerald-500', width:'72%' }
       ];
-
-      const maxVal = Math.max(...items.map(i => i.value), 1);
-
-      wrap.innerHTML = items.map(item => {
-        const pct = Math.max((item.value / maxVal) * 100, 4);
-        return `
-          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
-            <div class="flex items-center justify-between mb-3">
-              <div class="text-xs font-black uppercase tracking-widest text-slate-500">${escapeHtml_(item.label)}</div>
-              <div class="text-2xl font-black text-[#0a192f]">${item.value}</div>
-            </div>
-            <div class="w-full h-4 bg-slate-200 rounded-full overflow-hidden">
-              <div class="h-full ${item.cls}" style="width:${pct}%"></div>
-            </div>
+      wrap.innerHTML = steps.map(s => `
+        <div class="funnel-step flex justify-center">
+          <div class="funnel-shape ${s.color} text-white px-6 py-4 text-center shadow-md" style="width:${s.width}">
+            <div class="text-[11px] font-black uppercase tracking-widest opacity-90">${escapeHtml_(s.label)}</div>
+            <div class="text-3xl font-black mt-1">${s.value}</div>
           </div>
-        `;
-      }).join("");
+        </div>
+      `).join('');
     }
 
     function renderWeeklyTrendChart_(cases){
-      const canvas = document.getElementById("weeklyTrendChart");
-      if (!canvas || typeof Chart === "undefined") return;
-
+      const canvas = document.getElementById('weeklyTrendChart');
+      if (!canvas) return;
       const grouped = {};
       cases.forEach(c => {
-        const wk = (c.colSemana || "SIN SEMANA").trim() || "SIN SEMANA";
+        const wk = (c.colSemana || 'SIN SEMANA').trim() || 'SIN SEMANA';
         grouped[wk] = (grouped[wk] || 0) + 1;
       });
-
       const labels = Object.keys(grouped);
       const values = labels.map(l => grouped[l]);
       weeklyTrendChart = destroyChartSafe_(weeklyTrendChart);
-
       weeklyTrendChart = new Chart(canvas, {
-        type: "line",
-        data: {
-          labels,
-          datasets: [{
-            label: "Casos",
-            data: values,
-            borderColor: "#4f46e5",
-            backgroundColor: "rgba(79,70,229,.12)",
-            fill: true,
-            tension: .25,
-            pointRadius: 4,
-            pointBackgroundColor: "#4f46e5"
-          }]
-        },
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          plugins: {
-            legend: { labels: { font: { weight: "bold" } } }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: { font: { weight: "bold" } }
-            },
-            y: {
-              beginAtZero: true,
-              ticks: { precision: 0, stepSize: 1 },
-              grid: { color: "rgba(148,163,184,0.25)" }
-            }
+        type:'line',
+        data:{ labels, datasets:[{ label:'Casos', data:values, borderColor:'#4f46e5', backgroundColor:'rgba(79,70,229,.12)', fill:true, tension:.25, pointRadius:5, pointBackgroundColor:'#4f46e5' }] },
+        options:{
+          maintainAspectRatio:false, responsive:true,
+          plugins:{ legend:{ labels:{ font:{ weight:'bold', size:12 } } } },
+          scales:{
+            x:{ grid:{ display:false }, ticks:{ font:{ weight:'bold', size:12 } } },
+            y:{ beginAtZero:true, ticks:{ precision:0, stepSize:1, font:{ size:12 } }, grid:{ color:'rgba(148,163,184,0.25)' } }
           }
         }
       });
     }
 
     function renderStatusDistributionChart_(cases){
-      const canvas = document.getElementById("statusDistributionChart");
-      if (!canvas || typeof Chart === "undefined") return;
-
+      const canvas = document.getElementById('statusDistributionChart');
+      if (!canvas) return;
       const grouped = {};
       cases.forEach(c => {
-        const status = (c.postStatus || "SIN STATUS").trim() || "SIN STATUS";
-        grouped[status] = (grouped[status] || 0) + 1;
+        const s = (c.postStatus || 'SIN STATUS').trim() || 'SIN STATUS';
+        grouped[s] = (grouped[s] || 0) + 1;
       });
-
       const labels = Object.keys(grouped);
       const values = labels.map(l => grouped[l]);
       statusDistributionChart = destroyChartSafe_(statusDistributionChart);
-
       statusDistributionChart = new Chart(canvas, {
-        type: "bar",
-        data: {
-          labels,
-          datasets: [{
-            label: "Casos",
-            data: values,
-            backgroundColor: "#0ea5e9",
-            borderRadius: 6
-          }]
-        },
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          indexAxis: "y",
-          plugins: {
-            legend: { labels: { font: { weight: "bold" } } }
-          },
-          scales: {
-            x: {
-              beginAtZero: true,
-              ticks: { precision: 0, stepSize: 1 },
-              grid: { color: "rgba(148,163,184,0.25)" }
-            },
-            y: {
-              grid: { display: false },
-              ticks: { font: { weight: "bold" } }
-            }
+        type:'bar',
+        data:{ labels, datasets:[{ label:'Casos', data:values, backgroundColor:'#0ea5e9', borderRadius:6 }] },
+        options:{
+          maintainAspectRatio:false, responsive:true, indexAxis:'y',
+          plugins:{ legend:{ labels:{ font:{ weight:'bold', size:12 } } } },
+          scales:{
+            x:{ beginAtZero:true, ticks:{ precision:0, stepSize:1, font:{ size:12 } }, grid:{ color:'rgba(148,163,184,0.25)' } },
+            y:{ grid:{ display:false }, ticks:{ font:{ weight:'bold', size:12 } } }
           }
         }
       });
     }
 
     function renderDeadlineBucketsChart_(cases){
-      const canvas = document.getElementById("deadlineBucketsChart");
-      if (!canvas || typeof Chart === "undefined") return;
-
-      const buckets = {
-        "Vencidos": 0,
-        "0-3 días": 0,
-        "4-7 días": 0,
-        "8+ días": 0,
-        "Sin deadline": 0
-      };
-
+      const canvas = document.getElementById('deadlineBucketsChart');
+      if (!canvas) return;
+      const buckets = { 'Vencidos':0, '0-3 días':0, '4-7 días':0, '8+ días':0, 'Sin deadline':0 };
       cases.forEach(c => {
         const days = getDaysToDeadline_(c.deadline);
-        if (days === null) buckets["Sin deadline"] += 1;
-        else if (days < 0) buckets["Vencidos"] += 1;
-        else if (days <= 3) buckets["0-3 días"] += 1;
-        else if (days <= 7) buckets["4-7 días"] += 1;
-        else buckets["8+ días"] += 1;
+        if (days === null) buckets['Sin deadline'] += 1;
+        else if (days < 0) buckets['Vencidos'] += 1;
+        else if (days <= 3) buckets['0-3 días'] += 1;
+        else if (days <= 7) buckets['4-7 días'] += 1;
+        else buckets['8+ días'] += 1;
       });
-
       const labels = Object.keys(buckets);
       const values = labels.map(l => buckets[l]);
       deadlineBucketsChart = destroyChartSafe_(deadlineBucketsChart);
-
       deadlineBucketsChart = new Chart(canvas, {
-        type: "doughnut",
-        data: {
-          labels,
-          datasets: [{
-            data: values,
-            backgroundColor: ["#dc2626", "#f97316", "#f59e0b", "#10b981", "#94a3b8"]
-          }]
-        },
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: {
-                usePointStyle: true,
-                boxWidth: 10,
-                padding: 16,
-                font: { weight: "bold" }
-              }
-            }
-          }
-        }
+        type:'doughnut',
+        data:{ labels, datasets:[{ data:values, backgroundColor:['#ef4444','#f97316','#f59e0b','#10b981','#94a3b8'] }] },
+        options:{ maintainAspectRatio:false, responsive:true, plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, boxWidth:10, padding:16, font:{ weight:'bold', size:12 } } } } }
       });
     }
 
     function renderCriticalCases_(cases){
-      const tbody = document.getElementById("criticalCasesTableBody");
+      const tbody = document.getElementById('criticalCasesTableBody');
       if (!tbody) return;
-
-      const critical = cases.filter(c => {
-        const days = getDaysToDeadline_(c.deadline);
-        return isUrgent_(c) || (days !== null && days <= 3);
-      }).sort((a, b) => {
-        const da = getDaysToDeadline_(a.deadline);
-        const db = getDaysToDeadline_(b.deadline);
-        return (da ?? 9999) - (db ?? 9999);
-      });
-
-      if (!critical.length) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="8" class="px-4 py-10 text-center">
-              <div class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8">
-                <div class="text-xl font-black uppercase tracking-tight text-slate-400">No hay casos críticos</div>
-              </div>
-            </td>
-          </tr>
-        `;
+      const escalados = cases.filter(isPostEscalated_).sort((a,b) => (getDaysToDeadline_(a.deadline) ?? 9999) - (getDaysToDeadline_(b.deadline) ?? 9999));
+      if (!escalados.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="px-4 py-10 text-center"><div class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8"><div class="text-xl font-black uppercase tracking-tight text-slate-400">No hay casos escalados</div></div></td></tr>';
         return;
       }
-
-      tbody.innerHTML = critical.slice(0, 20).map(c => {
+      tbody.innerHTML = escalados.slice(0, 40).map(c => {
         const days = getDaysToDeadline_(c.deadline);
-        return `
-          <tr class="bg-white shadow-sm">
-            <td class="px-4 py-4 text-xs font-black text-[#0a192f] rounded-l-2xl">${escapeHtml_(c.id || "--")}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(c.name || "--")}</td>
-            <td class="px-4 py-4 text-xs font-black text-slate-600 uppercase">${escapeHtml_(c.atty || "--")}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(getCurrentArea_(c))}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(formatDateOnly_(c.deadline))}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${buildDaysBadge_(days)}</td>
-            <td class="px-4 py-4 text-xs font-black text-slate-700">${isUrgent_(c) ? "SI" : "NO"}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700 rounded-r-2xl">${escapeHtml_(c.finalStatus || "--")}</td>
-          </tr>
-        `;
-      }).join("");
+        return `<tr class="bg-white shadow-sm">
+          <td class="px-4 py-4 text-xs font-black text-[#0a192f] rounded-l-2xl">${escapeHtml_(c.id || '--')}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(c.name || '--')}</td>
+          <td class="px-4 py-4 text-xs font-black text-slate-600 uppercase">${escapeHtml_(c.atty || '--')}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(getCurrentArea_(c))}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(formatDateOnly_(c.deadline))}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${buildDaysBadge_(days)}</td>
+          <td class="px-4 py-4 text-xs font-black text-slate-700">${isUrgent_(c) ? 'SI' : 'NO'}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700 rounded-r-2xl"><button class="px-3 py-2 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase" onclick="openTimelineByClient('${escapeJs_(c.id || '')}','${escapeJs_(c.name || '')}')">Timeline</button></td>
+        </tr>`;
+      }).join('');
     }
 
     function renderExecutiveDashboard(){
       const baseCases = getDashboardFilteredCases_();
       const displayCases = applyExecutiveMetricFilter_(baseCases);
-
       renderExecutiveDashboardKPIs_(baseCases);
       paintExecutiveMetricCards_();
       renderAttorneyComparisonChart_(displayCases);
@@ -1929,48 +1391,33 @@ function getInitials_(name){
       renderCriticalCases_(displayCases);
     }
 
-    // =========================
-    // TRACKING
-    // =========================
     function populateTrackingFilters_(){
       const cases = getTrackingCases_();
+      const postStatusSelect = document.getElementById('trackingPostStatusFilter');
+      const weekSelect = document.getElementById('trackingWeekFilter');
+      const postStatuses = [...new Set(cases.map(c => (c.postStatus || '').toString().trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+      const weeks = [...new Set(cases.map(c => (c.colSemana || '').toString().trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
 
-      const postStatusSelect = document.getElementById("trackingPostStatusFilter");
-      const weekSelect = document.getElementById("trackingWeekFilter");
+      const fill = (el, ph, list) => {
+        const curr = el.value;
+        el.innerHTML = `<option value="">${ph}</option>` + list.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join('');
+        if (list.includes(curr)) el.value = curr;
+      };
 
-      const postStatuses = [...new Set(cases.map(c => (c.postStatus || "").toString().trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "es"));
-      const weeks = [...new Set(cases.map(c => (c.colSemana || "").toString().trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "es"));
-
-      const currentPost = postStatusSelect.value;
-      const currentWeek = weekSelect.value;
-
-      postStatusSelect.innerHTML =
-        `<option value="">Todos los Post Status</option>` +
-        postStatuses.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join("");
-
-      weekSelect.innerHTML =
-        `<option value="">Todas las semanas</option>` +
-        weeks.map(v => `<option value="${escapeHtml_(v)}">${escapeHtml_(v)}</option>`).join("");
-
-      postStatusSelect.value = postStatuses.includes(currentPost) ? currentPost : "";
-      weekSelect.value = weeks.includes(currentWeek) ? currentWeek : "";
+      fill(postStatusSelect, 'Todos los Post Status', postStatuses);
+      fill(weekSelect, 'Todas las semanas', weeks);
     }
 
     function renderTrackingTable(){
-      const tbody = document.getElementById("trackingTableBody");
+      const tbody = document.getElementById('trackingTableBody');
       if (!tbody) return;
 
       let cases = getTrackingCases_();
-      const postStatusFilter = normalizeStr(document.getElementById("trackingPostStatusFilter")?.value);
-      const weekFilter = normalizeStr(document.getElementById("trackingWeekFilter")?.value);
+      const postStatusFilter = normalizeStr(document.getElementById('trackingPostStatusFilter')?.value);
+      const weekFilter = normalizeStr(document.getElementById('trackingWeekFilter')?.value);
 
-      if (postStatusFilter) {
-        cases = cases.filter(c => normalizeStr(c.postStatus) === postStatusFilter);
-      }
-
-      if (weekFilter) {
-        cases = cases.filter(c => normalizeStr(c.colSemana) === weekFilter);
-      }
+      if (postStatusFilter) cases = cases.filter(c => normalizeStr(c.postStatus) === postStatusFilter);
+      if (weekFilter) cases = cases.filter(c => normalizeStr(c.colSemana) === weekFilter);
 
       cases.sort((a,b) => {
         const da = parseDateFromSheet(a.deadline) || new Date(8640000000000000);
@@ -1979,331 +1426,247 @@ function getInitials_(name){
       });
 
       if (!cases.length) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="9" class="px-4 py-10 text-center">
-              <div class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8">
-                <div class="text-xl font-black uppercase tracking-tight text-slate-400">No hay resultados</div>
-              </div>
-            </td>
-          </tr>
-        `;
+        tbody.innerHTML = '<tr><td colspan="10" class="px-4 py-10 text-center"><div class="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-8"><div class="text-xl font-black uppercase tracking-tight text-slate-400">No hay resultados</div></div></td></tr>';
         return;
       }
 
       tbody.innerHTML = cases.map(c => {
         const days = getDaysToDeadline_(c.deadline);
-        const area = c.areaPost || c.areaPre || "--";
-        const action = c.postAction || c.preAction || "--";
+        const area = c.areaPost || c.areaPre || '--';
+        const action = c.postAction || c.preAction || '--';
 
-        return `
-          <tr class="bg-white shadow-sm">
-            <td class="px-4 py-4 text-xs font-black text-[#0a192f] rounded-l-2xl">${escapeHtml_(c.id || "--")}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(c.name || "--")}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(area)}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(action)}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(formatDateOnly_(c.dateK))}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${buildDaysBadge_(days)}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(formatDateOnly_(c.deadline))}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700">${buildStatusBadge_(c.postStatus || "--")}</td>
-            <td class="px-4 py-4 text-xs font-bold text-slate-700 rounded-r-2xl">${buildStatusBadge_(c.finalStatus || "--")}</td>
-          </tr>
-        `;
-      }).join("");
+        return `<tr class="bg-white shadow-sm">
+          <td class="px-4 py-4 text-xs font-black text-[#0a192f] rounded-l-2xl">${escapeHtml_(c.id || '--')}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(c.name || '--')}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(area)}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(action)}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(formatDateOnly_(c.dateK))}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${buildDaysBadge_(days)}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${escapeHtml_(formatDateOnly_(c.deadline))}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700">${buildStatusBadge_(c.postStatus || '--')}</td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700"><button class="px-3 py-2 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase" onclick="openTimelineByClient('${escapeJs_(c.id || '')}','${escapeJs_(c.name || '')}')">Timeline</button></td>
+          <td class="px-4 py-4 text-xs font-bold text-slate-700 rounded-r-2xl"><button class="px-3 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase" onclick="selectClientByRow(${Number(c.rowIndex)})">Ver cliente</button></td>
+        </tr>`;
+      }).join('');
     }
 
-    // =========================
-    // VIEWS
-    // =========================
     function hideAllViews_(){
-      document.getElementById("dashboardView")?.classList.add("hidden");
-      document.getElementById("executiveDashboardView")?.classList.add("hidden");
-      document.getElementById("clientView")?.classList.add("hidden");
-      document.getElementById("trackingView")?.classList.add("hidden");
-    }
+  document.getElementById('dashboardView')?.classList.add('hidden');
+  document.getElementById('executiveDashboardView')?.classList.add('hidden');
+  document.getElementById('clientView')?.classList.add('hidden');
+  document.getElementById('trackingView')?.classList.add('hidden');
+}
 
     function updateCalendarModeUI_(){
-      const btn = document.getElementById("btnCalWeek");
+      const btn = document.getElementById('btnCalWeek');
       if (!btn) return;
-
-      if (calendarMode === "week"){
-        btn.textContent = "Ver solo hoy";
-        btn.classList.add("bg-indigo-600","text-white");
-        btn.classList.remove("bg-slate-100","text-slate-700","border","border-slate-200");
+      if (calendarMode === 'week') {
+        btn.textContent = 'Ver solo hoy';
+        btn.className = 'px-4 py-2 rounded-xl bg-indigo-600 text-white text-[11px] font-black uppercase hover:bg-indigo-700';
       } else {
-        btn.textContent = "Ver toda la semana";
-        btn.classList.remove("bg-indigo-600","text-white");
-        btn.classList.add("bg-slate-100","text-slate-700","border","border-slate-200");
+        btn.textContent = 'Ver toda la semana';
+        btn.className = 'px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-black uppercase hover:bg-slate-200';
       }
     }
 
     function updateHeaderForView_(){
-      const title = document.getElementById("mainTitle");
-      const subtitle = document.getElementById("mainSubtitle");
-      const btnTracking = document.getElementById("btnTrackingView");
-      const searchWrap = document.getElementById("dashboardSearchWrap");
+      const title = document.getElementById('mainTitle');
+      const subtitle = document.getElementById('mainSubtitle');
+      const btnTracking = document.getElementById('btnTrackingView');
+      const searchWrap = document.getElementById('dashboardSearchWrap');
 
-      if (currentView === "dashboard") {
-        title.textContent = "Agenda completa";
-        subtitle.textContent = `Vista de ${currentUser || "Attorney"}`;
-        btnTracking.classList.remove("hidden");
-        searchWrap.classList.remove("hidden");
-      } else if (currentView === "executiveDashboard") {
-        title.textContent = "Seguimiento Callbacks";
-        subtitle.textContent = "Vista general del sistema";
-        btnTracking.classList.add("hidden");
-        searchWrap.classList.add("hidden");
-      } else if (currentView === "client") {
-        title.textContent = "Detalle del cliente";
-        subtitle.textContent = "Seguimiento individual";
-        btnTracking.classList.add("hidden");
-        searchWrap.classList.add("hidden");
-      } else if (currentView === "tracking") {
-        title.textContent = "Seguimiento clientes";
-        subtitle.textContent = `Post Needed = SI • ${currentUser || "Attorney"}`;
-        btnTracking.classList.add("hidden");
-        searchWrap.classList.remove("hidden");
+      if (currentView === 'dashboard') {
+        title.textContent = 'Agenda completa';
+        subtitle.textContent = `Vista de ${currentUser || 'Attorney'}`;
+        btnTracking.classList.remove('hidden');
+        searchWrap.classList.remove('hidden');
+      } else if (currentView === 'executiveDashboard') {
+        title.textContent = 'Seguimiento Callbacks';
+        subtitle.textContent = 'Vista general del sistema';
+        btnTracking.classList.add('hidden');
+        searchWrap.classList.add('hidden');
+      } else if (currentView === 'client') {
+        title.textContent = 'Detalle del cliente';
+        subtitle.textContent = 'Seguimiento individual';
+        btnTracking.classList.add('hidden');
+        searchWrap.classList.add('hidden');
+      } else if (currentView === 'tracking') {
+        title.textContent = 'Seguimiento clientes';
+        subtitle.textContent = `Post Needed = SI • ${currentUser || 'Attorney'}`;
+        btnTracking.classList.add('hidden');
+        searchWrap.classList.remove('hidden');
       }
     }
 
-    function openDashboardView(){
-      currentView = "dashboard";
-      hideAllViews_();
-      document.getElementById("dashboardView").classList.remove("hidden");
-      updateHeaderForView_();
-      renderDashboard();
+    function setHeaderIdentity_(name, role, initials, isGeneral){
+      document.getElementById('userNameDisplay').innerText = name || '--';
+      document.getElementById('userRoleDisplay').innerText = role || '--';
+      document.getElementById('userAvatar').innerText = initials || '--';
+      document.getElementById('btnTrackingView')?.classList.toggle('hidden', !!isGeneral);
     }
 
-    window.openTrackingView = () => {
-      currentView = "tracking";
+    function goToWelcome_(){
+      currentView = 'welcome';
       hideAllViews_();
-      document.getElementById("trackingView").classList.remove("hidden");
+      document.getElementById('portalMain').classList.add('hidden');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.remove('hidden');
+    }
+
+    function goToLogin_(){
+      currentView = 'login';
+      hideAllViews_();
+      document.getElementById('portalMain').classList.add('hidden');
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+    }
+
+    function goToDashboard_(){
+      currentView = 'dashboard';
+      hideAllViews_();
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('portalMain').classList.remove('hidden');
+      document.getElementById('dashboardView').classList.remove('hidden');
+      setHeaderIdentity_(currentUser, 'Attorney', getInitials_(currentUser), false);
+      updateHeaderForView_();
+      renderDashboard();
+      checkUpcomingCallbacks_();
+    }
+
+    function goToTracking_(){
+      currentView = 'tracking';
+      hideAllViews_();
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('portalMain').classList.remove('hidden');
+      document.getElementById('trackingView').classList.remove('hidden');
+      setHeaderIdentity_(currentUser, 'Attorney', getInitials_(currentUser), false);
       updateHeaderForView_();
       populateTrackingFilters_();
       renderTrackingTable();
-    };
-
-    function renderActiveView(){
-      if (currentView === "tracking") {
-        populateTrackingFilters_();
-        renderTrackingTable();
-        return;
-      }
-
-      if (currentView === "dashboard") {
-        renderDashboard();
-        return;
-      }
-
-      if (currentView === "executiveDashboard") {
-        renderExecutiveDashboard();
-      }
+      checkUpcomingCallbacks_();
     }
 
-    // =========================
-    // CLIENT
-    // =========================
-    window.selectClientByRow = (rowIndex) => {
-      activeRowIndex = Number(rowIndex || 0) || null;
-      const c = allCases.find(x => Number(x.rowIndex) === Number(rowIndex));
-      if (!c) return;
-
-      activeClientId = c.id || null;
-      currentClientStoredNotes = String(c.compromisoAttys || "");
-
-      currentView = "client";
+    function goToExecutive_(){
+      currentView = 'executiveDashboard';
       hideAllViews_();
-      document.getElementById("clientView").classList.remove("hidden");
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('portalMain').classList.remove('hidden');
+      document.getElementById('executiveDashboardView').classList.remove('hidden');
+      setHeaderIdentity_('Panel General', 'Dashboard', 'PG', true);
       updateHeaderForView_();
-
-      document.getElementById("clientName").innerText = c.name || "--";
-      document.getElementById("clientId").innerText = `ID DE CLIENTE: ${c.id || "--"}`;
-      document.getElementById("clientSchedule").innerText = `CALLBACK: ${formatScheduleWithZones(c.dateK, c.timeL)}`;
-
-      document.getElementById("callReason").innerText = c.colDescription || "--";
-      document.getElementById("updateAJText").innerText = c.updatePreCallback || "--";
-      document.getElementById("aiInputArea").value = currentClientStoredNotes || "";
-
-      setLink("fileRiskAssessment", c.riskAssessment, "#");
-      setLink("fileDriveFolder", c.driveFolder, "#");
-      setLink("fileDropbox", c.dbLink, "#");
-      setLink("fileMyCase", c.linkMyCase, "#");
-
-      renderClientStatus_();
-    };
-
-    window.selectClient = (id) => {
-      const latest = getUniqueLatestCases_(allCases.filter(x => x.id === id))
-        .sort((a,b) => getCaseTimestamp_(b) - getCaseTimestamp_(a))[0];
-
-      if (!latest) return;
-      window.selectClientByRow(latest.rowIndex);
-    };
-
-    function buildAppendedNotes_(existing, newText){
-      const cleanNew = (newText || "").trim();
-      if (!cleanNew) return existing || "";
-
-      if (!existing || !String(existing).trim()) return cleanNew;
-      return `${String(existing).trim()}\n\n${cleanNew}`;
+      populateExecutiveDashboardFilters_();
+      renderExecutiveDashboard();
     }
 
-    window.syncToSheet = async () => {
-      if (!activeRowIndex) {
-        alert("No tengo la fila del Sheet para este cliente.");
-        return;
-      }
+    window.showAttySelection = function () {
+  const list = document.getElementById('attyList');
+  const welcome = document.getElementById('welcomeScreen');
+  const login = document.getElementById('loginScreen');
+  const portal = document.getElementById('portalMain');
 
-      const content = document.getElementById("aiInputArea").value.trim();
-      if (!content) return;
+  if (!list || !welcome || !login || !portal) {
+    alert('No encontré los elementos de inicio/login.');
+    return;
+  }
 
-      const status = document.getElementById("saveStatus");
-      status.innerText = "Enviando...";
+  list.innerHTML = attorneys.map(n => `
+    <button onclick="enterPortal('${escapeJs_(n)}')" class="name-card w-full text-left p-6 border border-white/10 rounded-2xl font-black uppercase text-xs text-white tracking-widest shadow-xl mb-3">
+      ${escapeHtml_(n)}
+    </button>
+  `).join('');
 
-      try {
-        const combined = buildAppendedNotes_(currentClientStoredNotes, content);
+  welcome.classList.add('hidden');
+  portal.classList.add('hidden');
+  login.classList.remove('hidden');
+  currentView = 'login';
+};
 
-        const body = new URLSearchParams({
-          action: "updateAI",
-          rowIndex: String(activeRowIndex),
-          value: combined
-        });
+  window.enterPortal = async (name) => {
+  currentUser = name;
+  shownReminderKeys = new Set();
 
-        const res = await fetch(SHEET_API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-          body
-        });
+  // abre rápido si ya hay data
+  if (!allCases.length) {
+    const ok = await loadSheetData();
+    if (!ok) return;
+  } else {
+    // refresco silencioso en background
+    loadSheetData({ silent: true, force: true });
+  }
 
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "No se pudo guardar");
+  goToDashboard_();
+  startReminderWatcher_();
+};
 
-        currentClientStoredNotes = combined;
-        status.innerText = "Enviado ✓";
+    window.openFutureDashboard = async () => {
+  currentUser = '';
 
-        await loadSheetData();
+  if (!allCases.length) {
+    const ok = await loadSheetData();
+    if (!ok) return;
+  } else {
+    loadSheetData({ silent: true, force: true });
+  }
 
-        if (currentView === "client") {
-          document.getElementById("aiInputArea").value = currentClientStoredNotes;
-        }
-      } catch (e) {
-        console.error(e);
-        status.innerText = "Error";
-        alert("Error guardando en Google Sheets. Revisa el Apps Script (deploy/permissions).");
-      }
+  stopReminderWatcher_();
+  goToExecutive_();
+};
+
+    window.openTrackingView = () => {
+      if (!currentUser) return;
+      goToTracking_();
     };
 
-    // =========================
-    // AI SIDEBAR
-    // =========================
-    window.openAI = () => document.getElementById("aiSidebar").classList.remove("translate-x-full");
-    window.closeAI = () => document.getElementById("aiSidebar").classList.add("translate-x-full");
-
-    window.saveAIContext = async () => {
-      if (!activeRowIndex) return alert("Primero selecciona un cliente.");
-
-      const box = document.getElementById("aiContextPaste");
-      if (!box) return alert("No encuentro el textarea de contexto (aiContextPaste).");
-
-      const text = box.value.trim();
-      if (!text) return alert("Pega el contexto primero.");
-
-      const body = new URLSearchParams({
-        action: "setContext",
-        rowIndex: String(activeRowIndex),
-        text
-      });
-
-      const res = await fetch(SHEET_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body
-      });
-
-      const data = await res.json();
-      if (!data.ok) return alert(data.error || "No se pudo guardar el contexto.");
-
-      alert("Contexto guardado. Ya puedes preguntarle al bot.");
-    };
-
-    window.askAI = async () => {
-      const input = document.getElementById("aiQuestion");
-      const q = input.value;
-      if (!q || !activeRowIndex) return;
-
-      const chat = document.getElementById("aiChat");
-      chat.innerHTML += `<div class="bg-slate-200 p-4 rounded-2xl text-xs font-bold ml-10 text-right">${escapeHtml_(q)}</div>`;
-      input.value = "";
-
-      try {
-        const body = new URLSearchParams({
-          action: "askAI",
-          rowIndex: String(activeRowIndex),
-          question: q
-        });
-
-        const res = await fetch(SHEET_API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-          body
-        });
-
-        const data = await res.json();
-        const text = data.ok ? data.answer : (data.error || "Error");
-
-        chat.innerHTML += `<div class="bg-indigo-600 text-white p-4 rounded-2xl text-[13px] font-medium mr-10 shadow-lg">${escapeHtml_(text)}</div>`;
-        chat.scrollTop = chat.scrollHeight;
-      } catch (e) {
-        chat.innerHTML += `<div class="bg-red-600 text-white p-4 rounded-2xl text-[13px] font-medium mr-10 shadow-lg">Error conectando al bot.</div>`;
-      }
-    };
-
-    // =========================
-    // GO BACK
-    // =========================
+    window.logoutPortal = () => {
+  stopReminderWatcher_();
+  shownReminderKeys = new Set();
+  currentUser = "";
+  activeClientId = null;
+  activeRowIndex = null;
+  currentClientStoredNotes = "";
+  allCases = [];
+  latestCasesByAttorney = {};
+  trackingCasesByAttorney = {};
+  document.getElementById('callbackReminderModal').classList.add('hidden');
+  goToWelcome_();
+};
     window.goBack = () => {
-      const portal = document.getElementById("portalMain");
-      const login = document.getElementById("loginScreen");
-      const welcome = document.getElementById("welcomeScreen");
-
-      if (currentView === "client") {
+      if (currentView === 'client') {
         activeClientId = null;
         activeRowIndex = null;
-        currentClientStoredNotes = "";
-        openDashboardView();
+        currentClientStoredNotes = '';
+        goToDashboard_();
         return;
       }
-
-      if (currentView === "tracking") {
-        openDashboardView();
+      if (currentView === 'tracking') {
+        goToDashboard_();
         return;
       }
-
-      if (currentView === "executiveDashboard") {
-        portal.classList.add("hidden");
-        login.classList.remove("hidden");
-        currentUser = "";
-        currentView = "dashboard";
+      if (currentView === 'executiveDashboard') {
+        goToLogin_();
         return;
       }
-
-      if (portal && !portal.classList.contains("hidden")) {
-        portal.classList.add("hidden");
-        login.classList.remove("hidden");
-        currentUser = "";
-        currentView = "dashboard";
+      if (currentView === 'dashboard') {
+        goToLogin_();
+        stopReminderWatcher_();
         return;
       }
-
-      if (login && !login.classList.contains("hidden")) {
-        login.classList.add("hidden");
-        welcome.classList.remove("hidden");
-      }
+      goToWelcome_();
     };
 
-    // =========================
-    // CALENDAR BUTTONS
-    // =========================
+    window.setExecutiveMetricFilter = (metric) => {
+      executiveMetricFilter = executiveMetricFilter === metric ? 'total' : metric;
+      renderExecutiveDashboard();
+    };
+
+    window.clearExecutiveMetricFilter = () => {
+      executiveMetricFilter = 'total';
+      renderExecutiveDashboard();
+    };
+
     window.shiftCalendarWeek = (deltaDays) => {
       calendarWeekOffsetDays += deltaDays;
       renderDashboard();
@@ -2311,14 +1674,414 @@ function getInitials_(name){
 
     window.resetCalendarWeek = () => {
       calendarWeekOffsetDays = 0;
-      calendarMode = "today";
+      calendarMode = 'today';
       renderDashboard();
     };
 
     window.toggleCalendarMode = () => {
-      calendarMode = calendarMode === "today" ? "week" : "today";
+      calendarMode = calendarMode === 'today' ? 'week' : 'today';
       renderDashboard();
     };
+
+    function renderActiveView(){
+      if (currentView === 'tracking') {
+        populateTrackingFilters_();
+        renderTrackingTable();
+        return;
+      }
+      if (currentView === 'dashboard') {
+        renderDashboard();
+        return;
+      }
+      if (currentView === 'executiveDashboard') renderExecutiveDashboard();
+    }
+
+    window.selectClientByRow = (rowIndex) => {
+      activeRowIndex = Number(rowIndex || 0) || null;
+      const c = allCases.find(x => Number(x.rowIndex) === Number(rowIndex));
+      if (!c) return;
+
+      activeClientId = c.id || null;
+      currentClientStoredNotes = String(c.compromisoAttys || '');
+      currentView = 'client';
+
+      hideAllViews_();
+      document.getElementById('portalMain').classList.remove('hidden');
+      document.getElementById('clientView').classList.remove('hidden');
+      setHeaderIdentity_(currentUser, 'Attorney', getInitials_(currentUser), false);
+      updateHeaderForView_();
+
+      document.getElementById('clientName').innerText = c.name || '--';
+      document.getElementById('clientId').innerText = `ID DE CLIENTE: ${c.id || '--'}`;
+      document.getElementById('clientSchedule').innerText = `CALLBACK: ${formatScheduleWithZones(c.dateK, c.timeL)}`;
+      document.getElementById('callReason').innerText = c.colDescription || '--';
+      document.getElementById('updateAJText').innerText = c.updatePreCallback || '--';
+      document.getElementById('aiInputArea').value = currentClientStoredNotes || '';
+
+      setLink('fileRiskAssessment', c.riskAssessment, '#');
+      setLink('fileDriveFolder', c.driveFolder, '#');
+      setLink('fileDropbox', c.dbLink, '#');
+      setLink('fileMyCase', c.linkMyCase, '#');
+
+      renderClientStatus_();
+      checkUpcomingCallbacks_();
+    };
+
+    function buildAppendedNotes_(existing, newText){
+      const cleanNew = (newText || '').trim();
+      if (!cleanNew) return existing || '';
+      if (!existing || !String(existing).trim()) return cleanNew;
+      return `${String(existing).trim()}\n\n${cleanNew}`;
+    }
+
+    window.syncToSheet = async () => {
+      if (!activeRowIndex) {
+        alert('No tengo la fila del Sheet para este cliente.');
+        return;
+      }
+
+      const cbStatus = getCallbackStatus_(activeRowIndex);
+      const mcStatus = getMycaseReady_(activeRowIndex);
+      const canSend = cbStatus === 'finalized' && mcStatus === 'ready';
+
+      if (!canSend) {
+        setSendAttempt_(activeRowIndex, 'yes');
+        renderClientStatus_();
+
+        let msg = 'Debes confirmar ambos puntos antes de enviar.';
+        if (cbStatus !== 'finalized' && mcStatus !== 'ready') {
+          msg = 'Debes marcar en verde que la callback fue finalizada con éxito y también confirmar que el texto será enviado a MyCase.';
+        } else if (cbStatus !== 'finalized') {
+          msg = 'Debes marcar en verde que la callback fue finalizada con éxito antes de enviar.';
+        } else if (mcStatus !== 'ready') {
+          msg = 'Debes marcar en verde que este será el texto que se subirá a MyCase antes de enviar.';
+        }
+
+        showCenterAlert(msg);
+        return;
+      }
+
+      const content = document.getElementById('aiInputArea').value.trim();
+      if (!content) return;
+
+      const status = document.getElementById('saveStatus');
+      status.innerText = 'Enviando...';
+
+      try {
+        const combined = buildAppendedNotes_(currentClientStoredNotes, content);
+
+        const body = new URLSearchParams({
+          action:'updateAI',
+          rowIndex:String(activeRowIndex),
+          value:combined
+        });
+
+        const res = await fetch(SHEET_API_URL, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' },
+          body
+        });
+
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'No se pudo guardar');
+
+        currentClientStoredNotes = combined;
+        status.innerText = 'Enviado ✓';
+        clearSendAttempt_(activeRowIndex);
+        renderClientStatus_();
+
+        await loadSheetData();
+
+        if (currentView === 'client') {
+          document.getElementById('aiInputArea').value = currentClientStoredNotes;
+        }
+
+      } catch (e) {
+        console.error(e);
+        status.innerText = 'Error';
+        alert('Error guardando en Google Sheets. Revisa el Apps Script (deploy/permissions).');
+      }
+    };
+
+    function playReminderSound_(){
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const ctx = new AudioContextClass();
+
+        const notes = [880, 660, 880];
+        let start = ctx.currentTime;
+
+        notes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.0001, start);
+          gain.gain.exponentialRampToValueAtTime(0.18, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.28);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(start);
+          osc.stop(start + 0.3);
+          start += i === 1 ? 0.18 : 0.34;
+        });
+      } catch (e) {
+        console.error('No pude reproducir sonido:', e);
+      }
+    }
+
+    function showReminderModal_(c, minutesLeft){
+  document.getElementById('reminderClientName').textContent = c.name || '--';
+  document.getElementById('reminderClientId').textContent = c.id || '--';
+  document.getElementById('reminderClientTime').textContent = getReminderDisplayTime_(c);
+  document.getElementById('reminderAttorneyName').textContent = c.atty || currentUser || '--';
+  document.getElementById('reminderReason').textContent = c.colDescription || 'Sin descripción disponible';
+  document.getElementById('callbackReminderModal').classList.remove('hidden');
+  playReminderSound_();
+}
+
+    window.dismissReminderModal = () => {
+      document.getElementById('callbackReminderModal').classList.add('hidden');
+    };
+
+    function getReminderKey_(c){
+      return `${normalizeStr(currentUser)}__${normalizeStr(c.id)}__${String(c.rowIndex)}`;
+    }
+
+    function checkUpcomingCallbacks_(){
+      if (!currentUser) return;
+      const cases = latestCasesByAttorney[normalizeStr(currentUser)] || [];
+      if (!cases.length) return;
+
+      const now = new Date();
+
+      const upcoming = cases
+        .map(c => ({ ...c, _dt: getCaseDateTime_(c) }))
+        .filter(c => !!c._dt)
+        .filter(c => {
+          const diffMin = Math.round((c._dt.getTime() - now.getTime()) / 60000);
+          return diffMin >= 0 && diffMin <= 15;
+        })
+        .sort((a,b) => a._dt - b._dt);
+
+      if (!upcoming.length) return;
+
+      const nextCase = upcoming[0];
+      const key = getReminderKey_(nextCase);
+      if (shownReminderKeys.has(key)) return;
+
+      shownReminderKeys.add(key);
+      const minutesLeft = Math.max(0, Math.round((nextCase._dt.getTime() - now.getTime()) / 60000));
+      showReminderModal_(nextCase, minutesLeft);
+    }
+
+    function startReminderWatcher_(){
+      stopReminderWatcher_();
+      reminderInterval = setInterval(() => {
+        if (!currentUser) return;
+        if (document.getElementById('portalMain').classList.contains('hidden')) return;
+        checkUpcomingCallbacks_();
+      }, 30000);
+    }
+
+    function stopReminderWatcher_(){
+      if (reminderInterval) {
+        clearInterval(reminderInterval);
+        reminderInterval = null;
+      }
+    }
+
+    window.openAI = () => document.getElementById('aiSidebar').classList.remove('translate-x-full');
+    window.closeAI = () => document.getElementById('aiSidebar').classList.add('translate-x-full');
+
+    window.toggleContextPanel = (show) => {
+      document.getElementById('contextPanelWrap').classList.toggle('hidden', !show);
+      document.getElementById('contextCollapsedBar').classList.toggle('hidden', show);
+    };
+
+    window.saveAIContext = async () => {
+      if (!activeRowIndex) return alert('Primero selecciona un cliente.');
+      const box = document.getElementById('aiContextPaste');
+      if (!box) return alert('No encuentro el textarea de contexto.');
+      const text = box.value.trim();
+      if (!text) return alert('Pega el contexto primero.');
+
+      const body = new URLSearchParams({ action:'setContext', rowIndex:String(activeRowIndex), text });
+      const res = await fetch(SHEET_API_URL, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' },
+        body
+      });
+      const data = await res.json();
+      if (!data.ok) return alert(data.error || 'No se pudo guardar el contexto.');
+
+      toggleContextPanel(false);
+      alert('Contexto guardado. Ya puedes preguntarle al bot.');
+    };
+
+    window.askAI = async () => {
+      const input = document.getElementById('aiQuestion');
+      const q = input.value.trim();
+      if (!q || !activeRowIndex) return;
+
+      const chat = document.getElementById('aiChat');
+      chat.innerHTML += `<div class="bg-slate-200 p-4 rounded-2xl text-xs font-bold ml-10 text-right">${escapeHtml_(q)}</div>`;
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
+
+      try {
+        const body = new URLSearchParams({ action:'askAI', rowIndex:String(activeRowIndex), question:q });
+        const res = await fetch(SHEET_API_URL, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' },
+          body
+        });
+        const data = await res.json();
+        const text = data.ok ? data.answer : (data.error || 'Error');
+        chat.innerHTML += `<div class="bg-indigo-600 text-white p-4 rounded-2xl text-[13px] font-medium mr-10 shadow-lg">${escapeHtml_(text)}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      } catch (e) {
+        chat.innerHTML += '<div class="bg-red-600 text-white p-4 rounded-2xl text-[13px] font-medium mr-10 shadow-lg">Error conectando al bot.</div>';
+        chat.scrollTop = chat.scrollHeight;
+      }
+    };
+
+    document.addEventListener('keydown', (e) => {
+      const input = document.getElementById('aiQuestion');
+      if (document.activeElement === input && e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        askAI();
+      }
+    });
+
+    async function getTimeline_(clientId){
+      if (!clientId) return [];
+      if (timelineCache[clientId]) return timelineCache[clientId];
+
+      try {
+        const res = await fetch(`${SHEET_API_URL}?action=getTimeline&clientId=${encodeURIComponent(clientId)}`);
+        const data = await res.json();
+        const items = data.ok ? (data.timeline || []) : [];
+        timelineCache[clientId] = items;
+        return items;
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    }
+
+    function normalizeTimelineItems_(items){
+      return items.map(it => ({
+        fechaCambio: it.fechaCambio || it['Fecha Cambio'] || it.timestamp || '',
+        tipoEvento: it.tipoEvento || it['Tipo de Evento'] || '',
+        campoModificado: it.campoModificado || it['Campo Modificado'] || '',
+        valorAnterior: it.valorAnterior || it['Valor Anterior'] || '',
+        valorNuevo: it.valorNuevo || it['Valor Nuevo'] || '',
+        id: it.id || it.ID || '',
+        cliente: it.cliente || it.Cliente || '',
+        fechaSolicitud: it.fechaSolicitud || it['Fecha de Solicitud'] || '',
+        preNeed: it.preNeed || it['Pre Need'] || '',
+        preAction: it.preAction || it['Pre Action'] || '',
+        area: it.area || it['Área'] || '',
+        preStatus: it.preStatus || it['Pre Status'] || '',
+        postNeed: it.postNeed || it['Post Need'] || '',
+        postAction: it.postAction || it['Post Action'] || '',
+        areaPost: it.areaPost || it['Área Post'] || '',
+        deadline: it.deadline || it['Deadline'] || '',
+        postStatus: it.postStatus || it['Post Status'] || '',
+        diasDesdeSolicitud: it.diasDesdeSolicitud || it['Días desde Solicitud'] || '',
+        descripcion: it.descripcion || it['Descripción'] || ''
+      })).sort((a,b) => {
+        const da = parseDateFromSheet(a.fechaCambio);
+        const db = parseDateFromSheet(b.fechaCambio);
+        return (da?.getTime() || 0) - (db?.getTime() || 0);
+      });
+    }
+
+    function usesCDMXReminderTime_(attorneyName){
+  return normalizeStr(attorneyName) === normalizeStr('DANIEL PATIÑO');
+}
+
+function getReminderTimeZoneLabel_(attorneyName){
+  return usesCDMXReminderTime_(attorneyName) ? 'CDMX' : 'PR';
+}
+
+function getReminderDisplayTime_(c){
+  const attorneyName = c.atty || currentUser || '';
+  if (usesCDMXReminderTime_(attorneyName)) {
+    return `${shiftTime_(c.timeL, -2)} CDMX`;
+  }
+  return `${formatTimeCompact(c.timeL)} PR`;
+}
+
+    function renderTimelineModal_(clientName, clientId, items){
+      const body = document.getElementById('timelineModalBody');
+      const ordered = normalizeTimelineItems_(items);
+
+      if (!ordered.length) {
+        body.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-center p-12 bg-white rounded-2xl border border-dashed border-slate-300"><div class="bg-slate-100 p-4 rounded-full mb-4"><i class="fas fa-filter w-8 h-8 text-slate-400"></i></div><h3 class="text-lg font-medium text-slate-600">Este cliente aún no cuenta con un timeline</h3><p class="text-slate-400 text-sm max-w-xs">Cuando existan movimientos en HISTORIAL DE CAMBIOS aparecerán aquí.</p></div>`;
+        return;
+      }
+
+      const last = ordered[ordered.length - 1] || {};
+      const vidaTotal = Math.max(...ordered.map(e => Number(e.diasDesdeSolicitud || 0)).filter(n => !isNaN(n)), 0);
+
+      body.innerHTML = `
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-6 items-center justify-between">
+            <div>
+              <h2 class="text-xl font-bold flex items-center gap-2">${escapeHtml_(clientName || '--')}</h2>
+              <p class="text-sm text-slate-500">ID Cliente: ${escapeHtml_(clientId || '--')}</p>
+            </div>
+            <div class="flex gap-4 text-center">
+              <div class="bg-slate-50 px-4 py-2 rounded-xl"><p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Última Área</p><p class="font-bold text-blue-600">${escapeHtml_(last.valorNuevo || last.areaPost || '--')}</p></div>
+              <div class="bg-slate-50 px-4 py-2 rounded-xl"><p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Vida Total</p><p class="font-bold text-slate-700">${vidaTotal} días</p></div>
+            </div>
+          </div>
+          <div class="relative timeline-line pl-8 space-y-8">
+            ${ordered.map(event => {
+              const done = ['DONE','FINALIZADO','FINALIZADA','COMPLETADO','COMPLETADA'].includes(normalizeStr(event.postStatus));
+              return `<div class="relative group"><div class="absolute -left-8 w-6 h-6 rounded-full border-4 border-white shadow-sm flex items-center justify-center z-10 ${done ? 'bg-green-500' : 'bg-blue-500'}"><i class="fas ${done ? 'fa-check' : 'fa-clock'} text-white text-[10px]"></i></div><div class="timeline-card bg-white rounded-2xl p-5 shadow-sm border border-slate-200 transition-all"><div class="flex flex-wrap justify-between items-start gap-4 mb-4"><div class="flex items-center gap-2"><span class="px-2 py-1 bg-slate-100 text-slate-600 rounded-md text-[10px] font-bold uppercase tracking-tight">${escapeHtml_(formatDateNoHour_(event.fechaCambio))}</span><span class="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-tight ${done ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">${escapeHtml_(event.postStatus || event.preStatus || 'IN PROGRESS')}</span></div></div><div class="flex items-center gap-3 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100"><div class="text-center flex-1"><p class="text-[10px] text-slate-400 uppercase font-bold">Anterior</p><p class="font-bold text-slate-500">${escapeHtml_(event.valorAnterior || 'N/A')}</p></div><i class="fas fa-arrow-right text-slate-300"></i><div class="text-center flex-1"><p class="text-[10px] text-blue-400 uppercase font-bold">Actual</p><p class="font-bold text-blue-700">${escapeHtml_(event.valorNuevo || event.areaPost || '--')}</p></div></div><div class="space-y-3"><div class="flex items-start gap-3 text-sm"><i class="fas fa-location-dot text-slate-400 mt-0.5"></i><div><p class="text-slate-400 text-xs">Acción Realizada:</p><p class="text-slate-700 italic">"${escapeHtml_(event.postAction || event.preAction || event.descripcion || '--')}"</p></div></div><div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-50"><div><p class="text-[10px] text-slate-400 leading-none">Deadline</p><p class="text-xs font-semibold">${escapeHtml_(formatDateOnly_(event.deadline))}</p></div><div><p class="text-[10px] text-slate-400 leading-none">Días desde Solicitud</p><p class="text-xs font-semibold">${escapeHtml_(String(event.diasDesdeSolicitud || '--'))}</p></div></div></div></div></div>`;
+            }).join('')}
+          </div>
+        </div>`;
+    }
+
+    window.openTimelineByClient = async (clientId, clientName) => {
+      document.getElementById('timelineModal').classList.remove('hidden');
+      document.getElementById('timelineModalBody').innerHTML = '<div class="h-full flex items-center justify-center text-slate-400 font-black uppercase">Cargando timeline...</div>';
+      const items = await getTimeline_(clientId);
+      renderTimelineModal_(clientName, clientId, items);
+    };
+
+    window.openClientTimeline = () => openTimelineByClient(activeClientId, document.getElementById('clientName')?.textContent || '');
+    window.closeTimeline = () => document.getElementById('timelineModal').classList.add('hidden');
+
+    window.addEventListener('load', function () {
+  currentUser = "";
+  activeClientId = null;
+  activeRowIndex = null;
+  currentClientStoredNotes = "";
+  allCases = [];
+  latestCasesByAttorney = {};
+  trackingCasesByAttorney = {};
+  calendarWeekOffsetDays = 0;
+  calendarMode = "today";
+  currentView = "welcome";
+  executiveMetricFilter = "total";
+  timelineCache = {};
+  shownReminderKeys = new Set();
+  stopReminderWatcher_();
+
+  document.getElementById('portalMain')?.classList.add('hidden');
+  document.getElementById('loginScreen')?.classList.add('hidden');
+  document.getElementById('welcomeScreen')?.classList.remove('hidden');
+  document.getElementById('callbackReminderModal')?.classList.add('hidden');
+  document.getElementById('aiSidebar')?.classList.add('translate-x-full');
+  document.getElementById('timelineModal')?.classList.add('hidden');
+  document.getElementById('centerAlert')?.classList.add('hidden');
+});
   </script>
 </body>
 </html>
