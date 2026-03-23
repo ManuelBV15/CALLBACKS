@@ -328,6 +328,7 @@
                 <a id="fileDriveFolder" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-folder-open text-amber-500 w-5 text-center"></i><span class="text-[10px] font-bold">Drive Folder</span></a>
                 <a id="fileDropbox" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-link text-indigo-500 w-5 text-center"></i><span class="text-[10px] font-bold">Dropbox</span></a>
                 <a id="fileMyCase" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-briefcase text-slate-700 w-5 text-center"></i><span class="text-[10px] font-bold">MyCase</span></a>
+                <a id="fileTramcase" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-slate-100"><i class="fas fa-database text-indigo-600 w-5 text-center"></i><span class="text-[10px] font-bold">TramCase</span></a>
               </div>
             </div>
           </div>
@@ -794,7 +795,8 @@
         finalStatus: raw.finalStatus || raw.colAH || '',
         lastUpdate: raw.lastUpdate || raw.colAI || '',
         quemados: raw.quemados || raw.colAJ || '',
-        colSemana: raw.colSemana || raw.colAK || ''
+        colSemana: raw.colSemana || raw.colAK || '',
+        tramcaseLink: raw.tramcaseLink || raw.colAL || ''
       };
     }
 
@@ -1722,6 +1724,7 @@
       setLink('fileDriveFolder', c.driveFolder, '#');
       setLink('fileDropbox', c.dbLink, '#');
       setLink('fileMyCase', c.linkMyCase, '#');
+      setLink('fileTramcase', caseData.tramcaseLink);
 
       renderClientStatus_();
       checkUpcomingCallbacks_();
